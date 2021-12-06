@@ -105,7 +105,10 @@ int main()
     }
 
     // play the game
+    // part 1
+    // figure out the first board to win
 
+    bool partOne = false;
     // iterates over the list of bingo numbers
     for (auto num : bingoNumbers)
     {
@@ -122,10 +125,52 @@ int main()
                 // multiply current num against sum of non-marked
                 int unmarked = sumUnmarked(board);
                 cout << "Part 1: " << unmarked * num << endl;
-                return 0;
+                print(board);
+                partOne = true;
+                break;
+            }
+        }
+        if (partOne)
+        {
+            break;
+        }
+    }
+
+    // part 2
+    // figure out the last board to win
+
+    // iterate over the boards
+    for (auto &num : bingoNumbers)
+    {
+        // use an iterator, rather than a for-based because we need to delete boards from the vector once they win
+        for (auto iter = allBoards.begin(); iter != allBoards.end();)
+        {
+            // mark the board, if applicable
+            mark(*iter, num);
+            // print(*iter);
+
+            // check the win condition on each board
+            if (isWin(*iter))
+            {
+                // we are going to check the last board to win AFTER it has won, rather than just being the last one
+                if (allBoards.size() == 1) {
+                    int unmarked = sumUnmarked(allBoards.front());
+                    cout << "Part 2: " << unmarked * num << endl;
+                    print(*iter);
+                    return 0;
+                }
+                // print(*iter);
+
+                // delete each board that wins
+                allBoards.erase(iter);
+            }
+            else
+            {
+                iter++;
             }
         }
     }
+
 }
 
 // marks board based on given bingo number
@@ -281,7 +326,8 @@ bool winRightDiag(vector<Point> &marked)
 // for left diagonal win condition is where all marked points add up to 4
 bool winLeftDiag(vector<Point> &marked)
 {
-    for (auto &point : marked) {
+    for (auto &point : marked)
+    {
         int tempi = point.geti();
         int tempj = point.getj();
         int test = tempi + tempj;
