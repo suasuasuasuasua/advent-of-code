@@ -1,1 +1,1 @@
-k
+https://adventofcode.com/
