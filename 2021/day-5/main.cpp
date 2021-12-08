@@ -22,7 +22,8 @@ int main()
 {
     // read in the file
     // ifstream fileIn("sample.txt");
-    ifstream fileIn("test.txt");
+    // ifstream fileIn("test.txt");
+    ifstream fileIn("test2.txt");
     if (!fileIn)
     {
         return -1;
@@ -89,7 +90,7 @@ int main()
         }
 
         // only adds points that are in a line
-        if (x1 == x2 || y1 == y2)
+        if (x1 == x2 || y1 == y2 || (x1 == y1 && x2 == y2) || (x1 + y1 == x2 + y2))
         {
             points.push_back(x1);
             points.push_back(y1);
@@ -107,6 +108,15 @@ int main()
         }
     }
     fileIn.close();
+
+    // for (auto &line : allPoints)
+    // {
+    //     for (auto &num : line)
+    //     {
+    //         cout << num << " ";
+    //     }
+    //     cout << endl;
+    // }
 
     // map holds the matrix that we will be analyzing
     vector<vector<int>> map;
@@ -184,7 +194,8 @@ int main()
                 }
             }
         }
-        print(map);
+
+        // print(map);
     }
 
     int count = 0;
@@ -199,8 +210,137 @@ int main()
             }
         }
     }
-    print(map);
+
+    // print(map);
     cout << "Part 1: " << count << endl;
 
     // part 2
+    map.clear();
+    for (int i = 0; i <= largestX; i++)
+    {
+        vector<int> line;
+        for (int j = 0; j <= largestY; j++)
+        {
+            line.push_back(0);
+        }
+        map.push_back(line);
+    }
+
+    // iterates over all points that we parsed
+    for (int i = 0; i < allPoints.size(); i++)
+    {
+        // x1, y1, x2, y2 will always be in the positions 0, 1, 2, 3
+        int x1, y1, x2, y2;
+
+        y1 = allPoints.at(i).at(0);
+        x1 = allPoints.at(i).at(1);
+        y2 = allPoints.at(i).at(2);
+        x2 = allPoints.at(i).at(3);
+
+        // if the points are in the same row
+        if (x1 == x2)
+        {
+            // check which yi is bigger than the other to iterate
+            if (y1 < y2)
+            {
+                for (int j = y1; j <= y2; j++)
+                {
+                    map.at(x1).at(j)++;
+                }
+            }
+            else
+            {
+                for (int j = y2; j <= y1; j++)
+                {
+                    map.at(x1).at(j)++;
+                }
+            }
+        }
+        // if the points are in the same column
+        if (y1 == y2)
+        {
+            // check which xi is bigger than the other to iterate
+            if (x1 < x2)
+            {
+                for (int j = x1; j <= x2; j++)
+                {
+                    map.at(j).at(y1)++;
+                }
+            }
+            else
+            {
+                for (int j = x2; j <= x1; j++)
+                {
+                    map.at(j).at(y1)++;
+                }
+            }
+        }
+
+        // right diagonal
+        if (x1 == y1 && x2 == y2)
+        {
+            if (x1 < x2)
+            {
+                for (int j = x1; j <= x2; j++)
+                {
+                    map.at(j).at(j)++;
+                }
+            }
+            if (x2 < x1)
+            {
+                for (int j = x2; j <= x1; j++)
+                {
+                    map.at(j).at(j)++;
+                }
+            }
+            // cout << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
+            // // print(map);
+            // cout << "--" << endl;
+
+            // print(map);
+        }
+        // left diagonal
+        if (x1 + y1 == x2 + y2)
+        {
+
+            // cout << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
+
+            if (x1 < x2)
+            {
+                    // 6,10 -> 9,7
+                    // 9,7 -> 6,10
+                for (int j = x1; j <= x2; j++)
+                {
+                    int offset = x2 - j;
+                    cout << j << " " << x1 << " " << offset << endl;
+                    map.at(j).at(offset)++;
+                }
+            }
+            if (x2 < x1)
+            {
+                // 10,6 -> 9,7
+                for (int j = x2; j <= x1; j++)
+                {
+                    int offset = x1 - j;
+                    cout << j << " " << x2 << " " << offset << endl;
+                    map.at(j).at(offset)++;
+                }
+            }
+        }
+    }
+
+    count = 0;
+    // iterates over the map to see which points have overlap, i.e. which ones are greater than 2
+    for (auto &line : map)
+    {
+        for (auto &num : line)
+        {
+            if (num >= 2)
+            {
+                count++;
+            }
+        }
+    }
+    print(map);
+    cout << "Part 2: " << count << endl;
 }
