@@ -12,7 +12,10 @@ void solve();
 bool readFile(ifstream &fileIn, const string &fileName);
 vector<int> readFile(ifstream &fileIn);
 vector<pair<Point, Point>> makePoints(const vector<int> &fileData);
-bool isInLine(const int &x1, const int &y1, const int &x2, const int &y2);
+void mark(map<Point, int> &mapData, pair<Point, Point> &point);
+bool isHorizontal(const int &x1, const int &y1, const int &x2, const int &y2);
+bool isVertical(const int &x1, const int &y1, const int &x2, const int &y2);
+int countMap(const map<Point, int> &mapData);
 
 int main()
 {
@@ -22,8 +25,8 @@ int main()
 void solve()
 {
     ifstream fileIn;
-    string fileName = "../sample.txt";
-    // string fileName = "../input1";
+    // string fileName = "../sample.txt";
+    string fileName = "../input1";
 
     if (readFile(fileIn, fileName) == -1)
     {
@@ -33,8 +36,12 @@ void solve()
 
     vector<int> fileData = readFile(fileIn);
     vector<pair<Point, Point>> pointsData = makePoints(fileData);
-
     map<Point, int> mapData;
+    for (auto &pairPoints : pointsData)
+    {
+        mark(mapData, pairPoints);
+    }
+    cout << countMap(mapData) << endl;
 }
 
 bool readFile(ifstream &fileIn, const string &fileName)
@@ -81,26 +88,113 @@ vector<pair<Point, Point>> makePoints(const vector<int> &fileData)
 
         i += 4;
 
-        if (!isInLine(x1, y1, x2, y2))
-        {
-            continue;
-        }
-
         first.x = x1;
         first.y = y1;
         second.x = x2;
         second.y = y2;
+
+        if (!isHorizontal(x1, y1, x2, y2) && !isVertical(x1, y1, x2, y2))
+        {
+            continue;
+        }
 
         pointsData.push_back(make_pair(first, second));
     }
     return pointsData;
 }
 
-bool isInLine(const int &x1, const int &y1, const int &x2, const int &y2)
+void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints)
 {
-    if (x1 == x2 || y1 == y2)
+    auto first = pairPoints.first, second = pairPoints.second;
+
+    int x1, y1, x2, y2;
+    x1 = first.x;
+    y1 = first.y;
+    x2 = second.x;
+    y2 = second.y;
+
+    vector<Point> pointsToMark;
+    if (isHorizontal(x1, y1, x2, y2))
+    {
+        if (x1 < x2)
+        {
+            for (int i = x1; i <= x2; i++)
+            {
+                pointsToMark.push_back(Point(i, y1));
+            }
+        }
+        if (x2 < x1)
+        {
+            for (int i = x2; i <= x1; i++)
+            {
+                pointsToMark.push_back(Point(i, y1));
+            }
+        }
+    }
+    if (isVertical(x1, y1, x2, y2))
+    {
+        if (y1 < y2)
+        {
+            for (int i = y1; i <= y2; i++)
+            {
+                pointsToMark.push_back(Point(x1, i));
+            }
+        }
+        if (y2 < y1)
+        {
+            for (int i = y2; i <= y1; i++)
+            {
+                pointsToMark.push_back(Point(x1, i));
+            }
+        }
+    }
+
+    // TODO FIGURE OUT WHY SOME POINTS ARE NOT ADDING PROPERLY
+    for (auto &point : pointsToMark)
+    {
+        if (mapData.count(point) == 1)
+        {
+            mapData.at(point)++;
+        }
+        else
+        {
+            mapData.insert(make_pair(point, 1));
+        }
+    }
+}
+
+bool isHorizontal(const int &x1, const int &y1, const int &x2, const int &y2)
+{
+    if (y1 == y2)
     {
         return true;
     }
     return false;
+}
+
+bool isVertical(const int &x1, const int &y1, const int &x2, const int &y2)
+{
+    if (x1 == x2)
+    {
+        return true;
+    }
+    return false;
+}
+
+int countMap(const map<Point, int> &mapData)
+{
+    int sum = 0;
+    for (const auto &data : mapData)
+    {
+        auto point = data.first;
+        auto count = data.second;
+
+        point.print();
+        cout << " " << count << endl;
+        if (count >= 2)
+        {
+            sum++;
+        }
+    }
+    return sum;
 }
