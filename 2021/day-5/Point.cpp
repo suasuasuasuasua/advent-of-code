@@ -26,4 +26,4 @@ bool operator<(const Point &lhs, const Point &rhs)
     {
         return y1 < y2;
     }
- 
+}

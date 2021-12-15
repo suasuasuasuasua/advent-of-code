@@ -13,9 +13,11 @@ bool readFile(ifstream &fileIn, const string &fileName);
 vector<int> readFile(ifstream &fileIn);
 vector<pair<Point, Point>> makePoints(const vector<int> &fileData);
 void mark(map<Point, int> &mapData, pair<Point, Point> &point);
-bool isHorizontal(const int &x1, const int &y1, const int &x2, const int &y2);
-bool isVertical(const int &x1, const int &y1, const int &x2, const int &y2);
+bool isHorizontal(const Point &lp, const Point &rp);
+bool isVertical(const Point &lp, const Point &rp);
 int countMap(const map<Point, int> &mapData);
+bool isLeftDiagonal(const Point &lp, const Point &rp);
+bool isRightDiagonal(const Point &lp, const Point &rp);
 
 int main()
 {
@@ -41,7 +43,11 @@ void solve()
     {
         mark(mapData, pairPoints);
     }
-    cout << countMap(mapData) << endl;
+    // Part 1: find intersections of horizontal and vertical points
+    cout << "Part 1: " << countMap(mapData) << endl;
+    // Part 2: find intersections of diagonal points as well
+    pointsData.clear();
+    pointsData = makePoints(fileData);
 }
 
 bool readFile(ifstream &fileIn, const string &fileName)
@@ -93,7 +99,7 @@ vector<pair<Point, Point>> makePoints(const vector<int> &fileData)
         second.x = x2;
         second.y = y2;
 
-        if (!isHorizontal(x1, y1, x2, y2) && !isVertical(x1, y1, x2, y2))
+        if (!isHorizontal(first, second) && !isVertical(first, second))
         {
             continue;
         }
@@ -114,7 +120,7 @@ void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints)
     y2 = second.y;
 
     vector<Point> pointsToMark;
-    if (isHorizontal(x1, y1, x2, y2))
+    if (isHorizontal(first, second))
     {
         if (x1 < x2)
         {
@@ -131,7 +137,7 @@ void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints)
             }
         }
     }
-    if (isVertical(x1, y1, x2, y2))
+    if (isVertical(first, second))
     {
         if (y1 < y2)
         {
@@ -155,8 +161,11 @@ void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints)
     }
 }
 
-bool isHorizontal(const int &x1, const int &y1, const int &x2, const int &y2)
+bool isHorizontal(const Point &lp, const Point &rp)
 {
+    int y1, y2;
+    y1 = lp.y;
+    y2 = rp.y;
     if (y1 == y2)
     {
         return true;
@@ -164,8 +173,11 @@ bool isHorizontal(const int &x1, const int &y1, const int &x2, const int &y2)
     return false;
 }
 
-bool isVertical(const int &x1, const int &y1, const int &x2, const int &y2)
+bool isVertical(const Point &lp, const Point &rp)
 {
+    int x1, x2;
+    x1 = lp.x;
+    x2 = rp.x;
     if (x1 == x2)
     {
         return true;
@@ -187,4 +199,13 @@ int countMap(const map<Point, int> &mapData)
         }
     }
     return sum;
+}
+
+bool isLeftDiagonal(const Point &lp, const Point &rp)
+{
+    return false;
+}
+bool isRightDiagonal(const Point &lp, const Point &rp)
+{
+    return false;
 }
