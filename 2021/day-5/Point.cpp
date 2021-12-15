@@ -10,9 +10,20 @@ void Point::print()
 
 bool operator<(const Point &lhs, const Point &rhs)
 {
-    if (lhs.x < rhs.x || lhs.y < rhs.y)
+    int x1, y1, x2, y2;
+    x1 = lhs.x;
+    y1 = lhs.y;
+    x2 = rhs.x;
+    y2 = rhs.y;
+
+    // better comparator via https://stackoverflow.com/questions/1112531/what-is-the-best-way-to-use-two-keys-with-a-stdmap
+    // not sure why this is the best way, but it works
+    if (x1 != x2)
     {
-        return true;
+        return x1 < x2;
     }
-    return false;
-}
+    else
+    {
+        return y1 < y2;
+    }
+ 

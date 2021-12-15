@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sua/Documents/advent-code/2021/day-5/Point.cpp
+Point.h
+/home/sua/Documents/advent-code/2021/day-5/Point.h
+iostream
+-
+
+/home/sua/Documents/advent-code/2021/day-5/Point.h
+iostream
+-
+

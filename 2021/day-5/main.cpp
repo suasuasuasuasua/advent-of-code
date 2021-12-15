@@ -25,8 +25,8 @@ int main()
 void solve()
 {
     ifstream fileIn;
-    // string fileName = "../sample.txt";
-    string fileName = "../input1";
+    string fileName = "../sample.txt";
+    // string fileName = "../input1";
 
     if (readFile(fileIn, fileName) == -1)
     {
@@ -149,17 +149,9 @@ void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints)
         }
     }
 
-    // TODO FIGURE OUT WHY SOME POINTS ARE NOT ADDING PROPERLY
     for (auto &point : pointsToMark)
     {
-        if (mapData.count(point) == 1)
-        {
-            mapData.at(point)++;
-        }
-        else
-        {
-            mapData.insert(make_pair(point, 1));
-        }
+        mapData[point]++;
     }
 }
 
@@ -189,8 +181,6 @@ int countMap(const map<Point, int> &mapData)
         auto point = data.first;
         auto count = data.second;
 
-        point.print();
-        cout << " " << count << endl;
         if (count >= 2)
         {
             sum++;
