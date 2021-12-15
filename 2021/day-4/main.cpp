@@ -29,20 +29,10 @@ bool winVert(vector<Point> &marked);
 bool winRightDiag(vector<Point> &marked);
 bool winLeftDiag(vector<Point> &marked);
 
-#define winningSet    \
-    {                 \
-        0, 1, 2, 3, 4 \
-    }
-
 int main()
 {
     // read in the file
-    ifstream fileIn("sample.txt");
-    // ifstream fileIn("test.txt");
-    // ifstream fileIn("horizontal.txt");
-    // ifstream fileIn("vertical.txt");
-    // ifstream fileIn("right-diagonal.txt");
-    // ifstream fileIn("left-diagonal.txt");
+    ifstream fileIn("../sample.txt");
     if (!fileIn)
     {
         return -1;
@@ -110,7 +100,7 @@ int main()
 
     bool partOne = false;
     // iterates over the list of bingo numbers
-    for (auto num : bingoNumbers)
+    for (auto &num : bingoNumbers)
     {
         // check each board with each number
         for (auto &board : allBoards)
@@ -125,7 +115,7 @@ int main()
                 // multiply current num against sum of non-marked
                 int unmarked = sumUnmarked(board);
                 cout << "Part 1: " << unmarked * num << endl;
-                print(board);
+                // print(board);
                 partOne = true;
                 break;
             }
@@ -153,10 +143,11 @@ int main()
             if (isWin(*iter))
             {
                 // we are going to check the last board to win AFTER it has won, rather than just being the last one
-                if (allBoards.size() == 1) {
+                if (allBoards.size() == 1)
+                {
                     int unmarked = sumUnmarked(allBoards.front());
                     cout << "Part 2: " << unmarked * num << endl;
-                    print(*iter);
+                    // print(*iter);
                     return 0;
                 }
                 // print(*iter);
@@ -170,7 +161,6 @@ int main()
             }
         }
     }
-
 }
 
 // marks board based on given bingo number
@@ -336,6 +326,5 @@ bool winLeftDiag(vector<Point> &marked)
             return false;
         }
     }
-    cout << "Left Diagonal" << endl;
     return true;
 }

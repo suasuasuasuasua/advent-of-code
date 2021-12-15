@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/sua/Documents/advent-code/2021/day-5
-BuildDirectory: /home/sua/Documents/advent-code/2021/day-5/cmake-build-debug
+SourceDirectory: /home/justinhoang/Documents/advent-code/2021/day-5
+BuildDirectory: /home/justinhoang/Documents/advent-code/2021/day-5/cmake-build-debug
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: Justin-Laptop
+Site: penguin
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-x86_64-linux-gnu-g++-10
@@ -26,8 +26,8 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/home/sua/Documents/advent-code/2021/day-5"
-MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
+ConfigureCommand: "/home/justinhoang/.local/bin/cmake" "/home/justinhoang/Documents/advent-code/2021/day-5"
+MakeCommand: /home/justinhoang/.local/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -35,22 +35,22 @@ UpdateVersionOnly:
 
 # CVS options
 # Default is "-d -P -A"
-CVSCommand: CVSCOMMAND-NOTFOUND
-CVSUpdateOptions: -d -A -P
+CVSCommand: 
+CVSUpdateOptions: 
 
 # Subversion options
-SVNCommand: SVNCOMMAND-NOTFOUND
+SVNCommand: 
 SVNOptions: 
 SVNUpdateOptions: 
 
 # Git options
-GITCommand: /usr/bin/git
+GITCommand: 
 GITInitSubmodules: 
 GITUpdateOptions: 
 GITUpdateCustom: 
 
 # Perforce options
-P4Command: P4COMMAND-NOTFOUND
+P4Command: 
 P4Client: 
 P4Options: 
 P4UpdateOptions: 
@@ -62,7 +62,7 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: /usr/bin/x86_64-linux-gnu-g++-10
+Compiler: /bin/x86_64-linux-gnu-g++-10
 CompilerVersion: 10.2.1
 
 # Dynamic analysis (MemCheck)
@@ -71,6 +71,8 @@ ValgrindCommand:
 ValgrindCommandOptions: 
 DrMemoryCommand: 
 DrMemoryCommandOptions: 
+CudaSanitizerCommand: 
+CudaSanitizerCommandOptions: 
 MemoryCheckType: 
 MemoryCheckSanitizerOptions: 
 MemoryCheckCommand: MEMORYCHECK_COMMAND-NOTFOUND
@@ -80,10 +82,6 @@ MemoryCheckSuppressionFile:
 # Coverage
 CoverageCommand: /usr/bin/gcov
 CoverageExtraFlags: -l
-
-# Cluster commands
-SlurmBatchCommand: SLURM_SBATCH_COMMAND-NOTFOUND
-SlurmRunCommand: SLURM_SRUN_COMMAND-NOTFOUND
 
 # Testing options
 # TimeOut is the amount of time in seconds to wait for processes

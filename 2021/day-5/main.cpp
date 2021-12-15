@@ -28,7 +28,7 @@ void solve()
 {
     ifstream fileIn;
     string fileName = "../sample.txt";
-    // string fileName = "../input1";
+    // string fileName = "../input";
 
     if (readFile(fileIn, fileName) == -1)
     {

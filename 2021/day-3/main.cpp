@@ -8,20 +8,21 @@ using namespace std;
 int binaryToDecimal(long long binaryNum);
 vector<string> parser(vector<string> binaryNums, int j, string type);
 
-int main() {
+int main()
+{
 
-    // open file and read in data    
+    // open file and read in data
+    ifstream fileIn("../sample.txt");
 
-    ifstream fileIn("sample.txt");
-    // ifstream fileIn("test.txt");
-
-    if (!fileIn) {
+    if (!fileIn)
+    {
         return -1;
     }
 
     vector<string> allBits;
 
-    while (!fileIn.eof()) {
+    while (!fileIn.eof())
+    {
         string temp;
         getline(fileIn, temp);
 
@@ -49,24 +50,26 @@ int main() {
             }
             else if (curr == '1')
             {
-                one ++;
+                one++;
             }
         }
 
         // for each column, construct the gamma and epsilon strings
-        // 
+        //
         // add the majority to gamma, add the minority to epsilon
-        if (zero > one) {
-            gammaStr   += '0';
+        if (zero > one)
+        {
+            gammaStr += '0';
             epsilonStr += '1';
         }
-        else {
-            gammaStr   += '1';
+        else
+        {
+            gammaStr += '1';
             epsilonStr += '0';
         }
     }
 
-    cout << "Gamma: " << gammaStr << " Epsilon: " << epsilonStr << endl;
+    // cout << "Gamma: " << gammaStr << " Epsilon: " << epsilonStr << endl;
 
     // converts the string to a long long integer because a normal integer does not have enough bits
     long long gammaBin = stoul(gammaStr);
@@ -76,16 +79,16 @@ int main() {
     int gamma = binaryToDecimal(gammaBin);
     int epsilon = binaryToDecimal(epsilonBin);
 
-    cout << "Gamma: " << gamma << " Epsilon: " << epsilon << endl;
+    // cout << "Gamma: " << gamma << " Epsilon: " << epsilon << endl;
     cout << "Part 1: " << gamma * epsilon << endl;
 
     // part 2
 
     // open the file again for reading
-    fileIn.open("sample.txt");
-    // fileIn.open("test.txt");
+    fileIn.open("../sample.txt");
 
-    if (!fileIn) {
+    if (!fileIn)
+    {
         return -1;
     }
 
@@ -102,19 +105,23 @@ int main() {
     vector<string> oxygen = allBits, carbonDioxide = allBits;
 
     // operate on each column of the data
-    for (int j = 0; j < oxygen.at(0).size(); j++) {
+    for (int j = 0; j < oxygen.at(0).size(); j++)
+    {
         // constantly update the oxygen as criteria is met
         oxygen = parser(oxygen, j, "oxygen");
-        
+
         // once only one entry remains, then exit
-        if (oxygen.size() == 1) {
+        if (oxygen.size() == 1)
+        {
             break;
         }
     }
-    for (int j = 0; j < carbonDioxide.at(0).size(); j++) {
+    for (int j = 0; j < carbonDioxide.at(0).size(); j++)
+    {
         carbonDioxide = parser(carbonDioxide, j, "co2");
-        
-        if (carbonDioxide .size() == 1) {
+
+        if (carbonDioxide.size() == 1)
+        {
             break;
         }
     }
@@ -127,15 +134,15 @@ int main() {
     int oxy = binaryToDecimal(oxyBin);
     int co2 = binaryToDecimal(co2Bin);
 
-    cout << "Oxygen: " << oxyBin << " Carbon Dioxide: " << co2Bin << endl;
-    cout << "Oxygen: " << oxy << " Carbon Dioxide: " << co2 << endl;
-
+    // cout << "Oxygen: " << oxyBin << " Carbon Dioxide: " << co2Bin << endl;
+    // cout << "Oxygen: " << oxy << " Carbon Dioxide: " << co2 << endl;
 
     cout << "Part 2: " << oxy * co2 << endl;
 }
 
 // converts binary to decimal
-int binaryToDecimal(long long binary) {
+int binaryToDecimal(long long binary)
+{
 
     // stores the decimal to be returned
     int decimal = 0;
@@ -162,7 +169,8 @@ int binaryToDecimal(long long binary) {
     return decimal;
 }
 
-vector<string> parser(vector<string> binaryNums, int j, string type) {
+vector<string> parser(vector<string> binaryNums, int j, string type)
+{
 
     // the vector that remains after data is parsed
     vector<string> parsed;
@@ -178,7 +186,8 @@ vector<string> parser(vector<string> binaryNums, int j, string type) {
     {
         auto curr = binaryNums.at(i).at(j);
 
-        if (curr == '0') {
+        if (curr == '0')
+        {
             zero++;
             izeros.push_back(i);
         }
@@ -190,35 +199,54 @@ vector<string> parser(vector<string> binaryNums, int j, string type) {
     }
 
     // for oxygen, always keep the majority rows, else the rows with 1
-    if (type == "oxygen") {
-        if (zero > one) {
-            for (auto num : izeros) {
+    if (type == "oxygen")
+    {
+        if (zero > one)
+        {
+            for (auto num : izeros)
+            {
                 parsed.push_back(binaryNums.at(num));
             }
-        } else if (one > zero) {
-            for (auto num : iones) {
+        }
+        else if (one > zero)
+        {
+            for (auto num : iones)
+            {
                 parsed.push_back(binaryNums.at(num));
             }
-        } else {
-                for (auto num : iones) {
-                    parsed.push_back(binaryNums.at(num));
-                }
+        }
+        else
+        {
+            for (auto num : iones)
+            {
+                parsed.push_back(binaryNums.at(num));
+            }
         }
 
-    // for co2, always keep the minority rows, else the rows with 0
-    } else if (type == "co2") {
-        if (zero < one) {
-            for (auto num : izeros) {
+        // for co2, always keep the minority rows, else the rows with 0
+    }
+    else if (type == "co2")
+    {
+        if (zero < one)
+        {
+            for (auto num : izeros)
+            {
                 parsed.push_back(binaryNums.at(num));
             }
-        } else if (one < zero) {
-            for (auto num : iones) {
+        }
+        else if (one < zero)
+        {
+            for (auto num : iones)
+            {
                 parsed.push_back(binaryNums.at(num));
             }
-        } else {
-                for (auto num : izeros) {
-                    parsed.push_back(binaryNums.at(num));
-                }
+        }
+        else
+        {
+            for (auto num : izeros)
+            {
+                parsed.push_back(binaryNums.at(num));
+            }
         }
     }
     return parsed;

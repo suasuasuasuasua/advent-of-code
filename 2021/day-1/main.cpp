@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
     ifstream fileIn;
-    fileIn.open("sample.txt");
+    fileIn.open("../sample.txt");
     if (!fileIn) { return -1; }
 
     vector<int> depths;
@@ -44,6 +44,4 @@ int main() {
 
 
     cout << "Count: " << count << endl;
-    // note that vim automatically adds a line at the end of a file, so we either need to pop off one entry from the end
-    cout << "Size: " << depths.size() << endl;
 }
