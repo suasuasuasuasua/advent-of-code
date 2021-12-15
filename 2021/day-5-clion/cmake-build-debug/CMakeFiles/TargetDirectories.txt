@@ -1,3 +1,0 @@
-//wsl$/Debian/home/sua/Documents/advent-code/2021/day-5-clion/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-//wsl$/Debian/home/sua/Documents/advent-code/2021/day-5-clion/cmake-build-debug/CMakeFiles/day_5_clion.dir
-//wsl$/Debian/home/sua/Documents/advent-code/2021/day-5-clion/cmake-build-debug/CMakeFiles/edit_cache.dir
