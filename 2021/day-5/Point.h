@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 class Point
 {
 public:
@@ -16,3 +14,4 @@ public:
 };
 
 bool operator<(const Point &lhs, const Point &rhs);
+bool operator==(const Point &lhs, const Point &rhs);
