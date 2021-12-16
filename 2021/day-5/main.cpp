@@ -18,6 +18,7 @@ bool isVertical(const Point &lp, const Point &rp);
 int countMap(const map<Point, int> &mapData);
 bool isLeftDiagonal(const Point &lp, const Point &rp);
 bool isRightDiagonal(const Point &lp, const Point &rp);
+void printMap(const map<Point, int> &mapData);
 
 int main()
 {
@@ -39,12 +40,12 @@ void solve()
     vector<int> fileData = readFile(fileIn);
     vector<pair<Point, Point>> pointsData = makePoints(fileData);
     map<Point, int> mapData;
-    for (auto &pairPoints : pointsData)
-    {
-        mark(mapData, pairPoints, 1);
-    }
-    // Part 1: find intersections of horizontal and vertical points
-    cout << "Part 1: " << countMap(mapData) << endl;
+    // for (auto &pairPoints : pointsData)
+    // {
+    //     mark(mapData, pairPoints, 1);
+    // }
+    // // Part 1: find intersections of horizontal and vertical points
+    // cout << "Part 1: " << countMap(mapData) << endl;
     // Part 2: find intersections of diagonal points as well
     mapData.clear();
     for (auto &pairPoints : pointsData)
@@ -52,6 +53,8 @@ void solve()
         mark(mapData, pairPoints, 2);
     }
     cout << "Part 2: " << countMap(mapData) << endl;
+
+    printMap(mapData);
 }
 
 bool readFile(ifstream &fileIn, const string &fileName)
@@ -110,6 +113,8 @@ vector<pair<Point, Point>> makePoints(const vector<int> &fileData)
 
         pointsData.push_back(make_pair(first, second));
     }
+    cout << endl
+         << endl;
     return pointsData;
 }
 
@@ -163,9 +168,14 @@ void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints, const int &p
     {
         if (isLeftDiagonal(first, second))
         {
-            int offset = abs(x1 - y1);
-            if (first == second)
+            if (x1 == y1 && x2 == y2)
             {
+                if (x2 < x1)
+                {
+                    int temp = x1;
+                    x1 = x2;
+                    x2 = temp;
+                }
                 for (int i = x1; i <= x2; i++)
                 {
                     pointsToMark.push_back(Point(i, i));
@@ -173,48 +183,43 @@ void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints, const int &p
             }
             else if (first < second)
             {
+                int j = y1;
                 for (int i = x1; i <= x2; i++)
                 {
-                    pointsToMark.push_back(Point(i, i - offset));
+                    pointsToMark.push_back(Point(i, j));
+                    j++;
                 }
             }
             else
             {
+                int j = y2;
                 for (int i = x2; i <= x1; i++)
                 {
-                    pointsToMark.push_back(Point(i, i + offset));
+                    pointsToMark.push_back(Point(i, j));
+                    j++;
                 }
             }
         }
         if (isRightDiagonal(first, second))
         {
-            // first.print();
-            // second.print();
-            // cout << endl;
+            // 0,5 -> 3,1
+            // 3,2 -> 5,0
+            // 3,3 -> 6,0
             if (x1 < x2 && y1 > y2)
             {
-                // 1,2 -> 3,0
-                if (y1 > x1)
+                int j = y1;
+                for (int i = x1; i <= x2; i++)
                 {
-                    for (int i = x1; i <= x2; i++)
-                    {
-                        int offset = y1 - i;
-                        pointsToMark.push_back(Point(i, x1 + offset));
-                    }
-                }
-                // 3,2 -> 4,1
-                else if (y1 < x1)
-                {
-                    int j = y1;
-                    for (int i = x1; i <= x2; i++)
-                    {
-                        pointsToMark.push_back(Point(i, j));
-                        j--;
-                    }
+                    pointsToMark.push_back(Point(i, j));
+                    j--;
                 }
             }
-            // 3,0 -> 1,2
-            else if (x2 < x1 && y2 > y1)
+            // 3,1 -> 0,5
+            // 3,2 -> 5,0
+            // 3,3 -> 6,0
+
+            // 8,0 -> 0,8
+            else
             {
                 int j = y2;
                 // cout << x1 << " " << y1 << " " << x2 << " " << y2 << endl;
@@ -226,12 +231,13 @@ void mark(map<Point, int> &mapData, pair<Point, Point> &pairPoints, const int &p
                 }
             }
         }
+        cout << endl;
     }
 
     for (auto &point : pointsToMark)
     {
-        // point.print();
-        // cout << endl;
+        point.print();
+        cout << endl;
         mapData[point]++;
     }
 }
@@ -243,6 +249,7 @@ bool isHorizontal(const Point &lp, const Point &rp)
     y2 = rp.y;
     if (y1 == y2)
     {
+        cout << "is horizontal" << endl;
         return true;
     }
     return false;
@@ -255,6 +262,7 @@ bool isVertical(const Point &lp, const Point &rp)
     x2 = rp.x;
     if (x1 == x2)
     {
+        cout << "Is vertical" << endl;
         return true;
     }
     return false;
@@ -282,7 +290,7 @@ int countMap(const map<Point, int> &mapData)
 // 1,0 -> 2,1 || 2,1 -> 1,0
 bool isLeftDiagonal(const Point &lp, const Point &rp)
 {
-    int x1, y1, x2, y2;
+    double x1, y1, x2, y2;
     x1 = lp.x;
     y1 = lp.y;
     x2 = rp.x;
@@ -293,21 +301,22 @@ bool isLeftDiagonal(const Point &lp, const Point &rp)
         return false;
     }
 
-    if (lp < rp)
+    if (!(lp < rp))
     {
-        int slope = (y2 - y1) / (x2 - x1);
-        if (slope > 0)
-        {
-            return true;
-        }
+        int tempX, tempY;
+        tempX = x2;
+        x2 = x1;
+        x1 = tempX;
+
+        tempY = y2;
+        y2 = y1;
+        y1 = tempY;
     }
-    else
+    double slope = (y2 - y1) / (x2 - x1);
+    if (slope == 1.0)
     {
-        int slope = (y1 - y2) / (x1 - x2);
-        if (slope > 0)
-        {
-            return true;
-        }
+        cout << "Is left diagonal" << endl;
+        return true;
     }
 
     return false;
@@ -321,7 +330,7 @@ bool isLeftDiagonal(const Point &lp, const Point &rp)
 // (2,2 -> 0,4) 0,4 1,3 2,2
 bool isRightDiagonal(const Point &lp, const Point &rp)
 {
-    float x1, y1, x2, y2;
+    double x1, y1, x2, y2;
     x1 = lp.x;
     y1 = lp.y;
     x2 = rp.x;
@@ -332,21 +341,33 @@ bool isRightDiagonal(const Point &lp, const Point &rp)
         return false;
     }
 
-    if (x1 < x2 && y1 > y2)
+    double slope = (y2 - y1) / (x2 - x1);
+    if (slope == -1.0)
     {
-        float slope = (y2 - y1) / (x2 - x1);
-        if (slope == -1.0)
-        {
-            return true;
-        }
-    }
-    else if (x2 < x1 && y2 > y1)
-    {
-        float slope = (y2 - y1) / (x2 - x1);
-        if (slope == -1.0)
-        {
-            return true;
-        }
+        cout << "Is right diagonal" << endl;
+        return true;
     }
     return false;
+}
+
+void printMap(const map<Point, int> &mapData)
+{
+    int largestX = 0, largestY = 0;
+    for (auto &dat : mapData)
+    {
+        auto point = dat.first;
+        int x, y;
+        x = point.x;
+        y = point.y;
+
+        if (x > largestX)
+        {
+            largestX = x;
+        }
+        if (y > largestY)
+        {
+            largestY = y;
+        }
+    }
+    cout << largestX << " " << largestY << endl;
 }
