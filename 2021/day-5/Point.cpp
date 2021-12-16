@@ -27,3 +27,16 @@ bool operator<(const Point &lhs, const Point &rhs)
         return y1 < y2;
     }
 }
+
+bool operator==(const Point &lhs, const Point &rhs)
+{
+    int x1, y1, x2, y2;
+    x1 = lhs.x;
+    y1 = lhs.y;
+    x2 = rhs.x;
+    y2 = rhs.y;
+
+    // better comparator via https://stackoverflow.com/questions/1112531/what-is-the-best-way-to-use-two-keys-with-a-stdmap
+    // not sure why this is the best way, but it works
+    return x1 == y1 && x2 == y2;
+}
