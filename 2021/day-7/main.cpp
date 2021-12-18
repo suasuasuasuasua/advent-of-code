@@ -87,7 +87,7 @@ unsigned long long int leastDistance(const vector<int> crabPositions, const int 
     for (int i = minPosition, n = maxPosition; i < n; i++)
     {
         int tempMin = 0;
-        for (auto position : crabPositions)
+        for (const auto &position : crabPositions)
         {
             if (part == 1)
             {
