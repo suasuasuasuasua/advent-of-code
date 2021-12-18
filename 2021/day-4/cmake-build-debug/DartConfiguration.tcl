@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/justinhoang/Documents/advent-code/2021/day-4
-BuildDirectory: /home/justinhoang/Documents/advent-code/2021/day-4/cmake-build-debug
+SourceDirectory: /home/sua/Documents/advent-code/2021/day-4
+BuildDirectory: /home/sua/Documents/advent-code/2021/day-4/cmake-build-debug
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: penguin
+Site: JustinPC
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-x86_64-linux-gnu-g++-10
@@ -26,8 +26,8 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/home/justinhoang/.local/bin/cmake" "/home/justinhoang/Documents/advent-code/2021/day-4"
-MakeCommand: /home/justinhoang/.local/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
+ConfigureCommand: "/home/sua/.local/bin/cmake" "/home/sua/Documents/advent-code/2021/day-4"
+MakeCommand: /home/sua/.local/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -62,7 +62,7 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: /bin/x86_64-linux-gnu-g++-10
+Compiler: /usr/bin/x86_64-linux-gnu-g++-10
 CompilerVersion: 10.2.1
 
 # Dynamic analysis (MemCheck)
