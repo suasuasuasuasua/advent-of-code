@@ -3,37 +3,44 @@
 #include <vector>
 #include <map>
 
-#include "LanternFish.h"
-
 using namespace std;
 
 bool readFile(ifstream &fileIn, const string &fileName);
-vector<LanternFish> readDataFromFile(ifstream &fileIn);
-map<int, int> lanternFishAfterTime(const vector<LanternFish> &allLanternFish, const int &numDays);
+vector<int> readDataFromFile(ifstream &fileIn);
+map<int, unsigned long long int> lanternFishAfterTime(const vector<int> &allLanternFish, const int &numDays);
 
 int main()
 {
     ifstream fileIn;
-    // string fileName = "../sample.txt";
-    string fileName = "../input.txt";
+    string fileName = "../sample.txt";
+    // string fileName = "../input.txt";
     if (!readFile(fileIn, fileName))
     {
         cout << "File could not be read" << endl;
         return -1;
     }
 
-    vector<LanternFish> OGLanternFish = readDataFromFile(fileIn);
+    vector<int> OGLanternFishAges = readDataFromFile(fileIn);
 
     // Part 1: count lanternfish after 80 days
     int numDays = 80;
-    auto p1LanternFish = lanternFishAfterTime(OGLanternFish, numDays);
+    auto p1LanternFish = lanternFishAfterTime(OGLanternFishAges, numDays);
+    unsigned long long int partOneSum = 0;
+    for (const auto &ageGroup : p1LanternFish)
+    {
+        partOneSum += ageGroup.second;
+    }
+    cout << "Part 1: " << partOneSum << endl;
 
-    cout << "Part 1: " << p1LanternFish.size() << endl;
     // Part 2: count lanternfish after 256 days
     numDays = 256;
-    auto p2LanternFish = lanternFishAfterTime(OGLanternFish, numDays);
-
-    cout << "Part 2: " << p2LanternFish.size() << endl;
+    auto p2LanternFish = lanternFishAfterTime(OGLanternFishAges, numDays);
+    unsigned long long int partTwoSum = 0;
+    for (const auto &ageGroup : p2LanternFish)
+    {
+        partTwoSum += ageGroup.second;
+    }
+    cout << "Part 2: " << partTwoSum << endl;
 }
 
 bool readFile(ifstream &fileIn, const string &fileName)
@@ -46,9 +53,9 @@ bool readFile(ifstream &fileIn, const string &fileName)
     return true;
 }
 
-vector<LanternFish> readDataFromFile(ifstream &fileIn)
+vector<int> readDataFromFile(ifstream &fileIn)
 {
-    vector<LanternFish> allLanternFish;
+    vector<int> lanternFishAges;
     while (!fileIn.eof())
     {
         int age;
@@ -59,27 +66,37 @@ vector<LanternFish> readDataFromFile(ifstream &fileIn)
             fileIn.ignore();
             continue;
         }
-        allLanternFish.push_back(LanternFish(age));
+        lanternFishAges.push_back(age);
     }
-    return allLanternFish;
+    return lanternFishAges;
 }
 
-map<int, int> lanternFishAfterTime(const vector<LanternFish> &allLanternFish, const int &numDays)
+// note: remember to use long long int because these puzzles generally require huge numbers
+map<int, unsigned long long int> lanternFishAfterTime(const vector<int> &allLanternFish, const int &numDays)
 {
-    map<int, int> newLanternFish;
+    map<int, unsigned long long int> fishAgeGroup;
 
-    for (auto &fish : allLanternFish)
+    for (const auto &fish : allLanternFish)
     {
-        newLanternFish[fish.age]++;
+        fishAgeGroup[fish]++;
     }
 
-    // TODO Figure out how to carousel the map elements
+    // Carousel the map elements
     // 8<-1<-2<-3<-4<-5<-6<-7<-8
-    // 
-    // maybe don't use a LanternFish class?
-    for (int i = 1; i < numDays; i++)
+    //
+    for (int i = 0; i < numDays; i++)
     {
+        unsigned long long int ageZero = fishAgeGroup[0];
+        for (int j = 1; j <= 8; j++)
+        {
+            fishAgeGroup[j - 1] = fishAgeGroup[j];
+            if (j == 8)
+            {
+                fishAgeGroup[j] = 0;
+            }
+        }
+        fishAgeGroup[6] += ageZero;
+        fishAgeGroup[8] = ageZero;
     }
-
-        return newLanternFish;
+    return fishAgeGroup;
 }

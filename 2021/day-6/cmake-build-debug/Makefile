@@ -523,30 +523,6 @@ day-6/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/day-6.dir/build.make CMakeFiles/day-6.dir/build
 .PHONY : day-6/fast
 
-LanternFish.o: LanternFish.cpp.o
-.PHONY : LanternFish.o
-
-# target to build an object file
-LanternFish.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/day-6.dir/build.make CMakeFiles/day-6.dir/LanternFish.cpp.o
-.PHONY : LanternFish.cpp.o
-
-LanternFish.i: LanternFish.cpp.i
-.PHONY : LanternFish.i
-
-# target to preprocess a source file
-LanternFish.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/day-6.dir/build.make CMakeFiles/day-6.dir/LanternFish.cpp.i
-.PHONY : LanternFish.cpp.i
-
-LanternFish.s: LanternFish.cpp.s
-.PHONY : LanternFish.s
-
-# target to generate assembly for a file
-LanternFish.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/day-6.dir/build.make CMakeFiles/day-6.dir/LanternFish.cpp.s
-.PHONY : LanternFish.cpp.s
-
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -611,9 +587,6 @@ help:
 	@echo "... NightlyTest"
 	@echo "... NightlyUpdate"
 	@echo "... day-6"
-	@echo "... LanternFish.o"
-	@echo "... LanternFish.i"
-	@echo "... LanternFish.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

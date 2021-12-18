@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/day-6.dir/LanternFish.cpp.o"
-  "CMakeFiles/day-6.dir/LanternFish.cpp.o.d"
   "CMakeFiles/day-6.dir/main.cpp.o"
   "CMakeFiles/day-6.dir/main.cpp.o.d"
   "day-6"
