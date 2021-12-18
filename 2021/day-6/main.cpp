@@ -5,7 +5,7 @@
 
 using namespace std;
 
-bool readFile(ifstream &fileIn, const string &fileName);
+bool openFile(ifstream &fileIn, const string &fileName);
 vector<int> readDataFromFile(ifstream &fileIn);
 map<int, unsigned long long int> lanternFishAfterTime(const vector<int> &allLanternFish, const int &numDays);
 
@@ -14,7 +14,7 @@ int main()
     ifstream fileIn;
     string fileName = "../sample.txt";
     // string fileName = "../input.txt";
-    if (!readFile(fileIn, fileName))
+    if (!openFile(fileIn, fileName))
     {
         cout << "File could not be read" << endl;
         return -1;
@@ -43,7 +43,7 @@ int main()
     cout << "Part 2: " << partTwoSum << endl;
 }
 
-bool readFile(ifstream &fileIn, const string &fileName)
+bool openFile(ifstream &fileIn, const string &fileName)
 {
     fileIn.open(fileName);
     if (!fileIn)

@@ -140,4 +140,12 @@ CMakeFiles/day-7.dir/main.cpp.o: \
  /usr/include/c++/10/bits/locale_facets.tcc \
  /usr/include/c++/10/bits/basic_ios.tcc \
  /usr/include/c++/10/bits/ostream.tcc /usr/include/c++/10/istream \
- /usr/include/c++/10/bits/istream.tcc
+ /usr/include/c++/10/bits/istream.tcc /usr/include/c++/10/fstream \
+ /usr/include/c++/10/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/10/bits/c++io.h \
+ /usr/include/c++/10/bits/fstream.tcc /usr/include/c++/10/vector \
+ /usr/include/c++/10/bits/stl_uninitialized.h \
+ /usr/include/c++/10/bits/stl_vector.h \
+ /usr/include/c++/10/bits/stl_bvector.h \
+ /usr/include/c++/10/bits/vector.tcc
