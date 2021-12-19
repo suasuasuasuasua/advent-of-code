@@ -1,7 +1,7 @@
 [
 {
-  "directory": "/home/sua/Documents/advent-code/2021/day-8/cmake-build-debug",
-  "command": "/usr/bin/x86_64-linux-gnu-g++-10   -g -o CMakeFiles/day-8.dir/main.cpp.o -c /home/sua/Documents/advent-code/2021/day-8/main.cpp",
-  "file": "/home/sua/Documents/advent-code/2021/day-8/main.cpp"
+  "directory": "/home/justinhoang/Documents/advent-code/2021/day-8/cmake-build-debug",
+  "command": "/bin/x86_64-linux-gnu-g++-10 -g -o CMakeFiles/day-8.dir/main.cpp.o -c /home/justinhoang/Documents/advent-code/2021/day-8/main.cpp",
+  "file": "/home/justinhoang/Documents/advent-code/2021/day-8/main.cpp"
 }
 ]

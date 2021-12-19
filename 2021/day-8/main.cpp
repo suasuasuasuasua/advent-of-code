@@ -12,14 +12,15 @@ bool partOneDigits(const string &digit);
 
 int main()
 {
-    solve;
+    solve();
 }
 
 void solve()
 {
     ifstream fileIn;
-    string fileName;
-    if (!fileIn)
+    string fileName = "../input.txt";
+    // string fileName = "../sample.txt";
+    if (!openFile(fileIn, fileName))
     {
         cout << fileName << " could not be opened." << endl;
         return;
@@ -27,6 +28,7 @@ void solve()
 
     // part 1
     vector<string> digitData = readFile(fileIn, 1);
+    cout << "Part 1: " << digitData.size() << endl;
 }
 
 bool openFile(ifstream &fileIn, const string &fileName)
@@ -42,21 +44,41 @@ bool openFile(ifstream &fileIn, const string &fileName)
 vector<string> readFile(ifstream &fileIn, const int &part)
 {
     vector<string> data;
-    bool output = false;
     while (!fileIn.eof())
     {
-        string digit;
-        fileIn >> digit;
-        if (digit == "|")
+        string dataLine;
+        getline(fileIn, dataLine);
+
+        int breakpoint = dataLine.find("|") + 2; // +2 to start at the character after the bar
+        int lengthOfRest = dataLine.size() - breakpoint;
+        dataLine = dataLine.substr(breakpoint, lengthOfRest);
+
+        // split string into many strings
+        vector<string> splitDigits;
+        int space;
+        string parsedDigit;
+
+        while ((space = dataLine.find(' ')) != string::npos)
         {
-            output = true;
+            parsedDigit = dataLine.substr(0, space);
+
+            space++;
+            lengthOfRest = dataLine.size() - space;
+            dataLine = dataLine.substr(space, lengthOfRest);
+
+            splitDigits.push_back(parsedDigit);
         }
-        else
+
+        // add the last word after parsed for spaces
+        // because the first loop stops after no more spaces are found
+        splitDigits.push_back(dataLine);
+
+        for (const auto& digit : splitDigits)
         {
-            continue;
-        }
-        if (partOneDigits(digit))
-        {
+            if (partOneDigits(digit))
+            {
+                data.push_back(digit);
+            }
         }
     }
     return data;
@@ -65,9 +87,14 @@ vector<string> readFile(ifstream &fileIn, const int &part)
 bool partOneDigits(const string &digit)
 {
     int digitSize = digit.size();
-    if (digitSize == 1 || digitSize == 4 || digitSize == 7 || digitSize == 8)
+    // 1, 4, 7, 8, in that order
+    vector<int> digitCheck = {2, 4, 3, 7};
+    for (const auto& digit : digitCheck)
     {
-        return true;
+        if (digit == digitSize)
+        {
+            return true;
+        }
     }
     return false;
 }
