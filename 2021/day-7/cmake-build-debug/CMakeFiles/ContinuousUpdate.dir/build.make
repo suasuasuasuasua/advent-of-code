@@ -44,19 +44,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/sua/.local/bin/cmake
+CMAKE_COMMAND = /opt/homebrew/Cellar/cmake/3.22.1/bin/cmake
 
 # The command to remove a file.
-RM = /home/sua/.local/bin/cmake -E rm -f
+RM = /opt/homebrew/Cellar/cmake/3.22.1/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sua/Documents/advent-code/2021/day-7
+CMAKE_SOURCE_DIR = /Users/justinhoang/Documents/advent-code/2021/day-7
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug
 
 # Utility rule file for ContinuousUpdate.
 
@@ -67,7 +67,7 @@ include CMakeFiles/ContinuousUpdate.dir/compiler_depend.make
 include CMakeFiles/ContinuousUpdate.dir/progress.make
 
 CMakeFiles/ContinuousUpdate:
-	/home/sua/.local/bin/ctest -D ContinuousUpdate
+	/opt/homebrew/Cellar/cmake/3.22.1/bin/ctest -D ContinuousUpdate
 
 ContinuousUpdate: CMakeFiles/ContinuousUpdate
 ContinuousUpdate: CMakeFiles/ContinuousUpdate.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/ContinuousUpdate.dir/clean:
 .PHONY : CMakeFiles/ContinuousUpdate.dir/clean
 
 CMakeFiles/ContinuousUpdate.dir/depend:
-	cd /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sua/Documents/advent-code/2021/day-7 /home/sua/Documents/advent-code/2021/day-7 /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug/CMakeFiles/ContinuousUpdate.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/justinhoang/Documents/advent-code/2021/day-7 /Users/justinhoang/Documents/advent-code/2021/day-7 /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug/CMakeFiles/ContinuousUpdate.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ContinuousUpdate.dir/depend
 
