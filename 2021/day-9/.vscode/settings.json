@@ -2,6 +2,6 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "files.associations": {
         "*.cpp": "cpp",
-        "iosfwd": "cpp"
+        "vector": "cpp"
     }
 }
