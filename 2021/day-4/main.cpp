@@ -32,7 +32,9 @@ bool winLeftDiag(vector<Point> &marked);
 int main()
 {
     // read in the file
-    ifstream fileIn("../sample.txt");
+    // ifstream fileIn("../sample.txt");
+    ifstream fileIn("../input.txt");
+
     if (!fileIn)
     {
         return -1;
