@@ -28,8 +28,8 @@ int main()
 void solve()
 {
     ifstream fileIn;
-    string fileName = "../sample.txt";
-    // string fileName = "../input.txt";
+    // string fileName = "../sample.txt";
+    string fileName = "../input.txt";
 
     if (readFile(fileIn, fileName) == -1)
     {

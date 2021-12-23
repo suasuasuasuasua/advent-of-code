@@ -1,12 +1,12 @@
 [
 {
   "directory": "/home/sua/Documents/advent-code/2021/day-5/cmake-build-debug",
-  "command": "/usr/bin/x86_64-linux-gnu-g++-10   -g -o CMakeFiles/day-5.dir/main.cpp.o -c /home/sua/Documents/advent-code/2021/day-5/main.cpp",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-10   -O3 -DNDEBUG -o CMakeFiles/day-5.dir/main.cpp.o -c /home/sua/Documents/advent-code/2021/day-5/main.cpp",
   "file": "/home/sua/Documents/advent-code/2021/day-5/main.cpp"
 },
 {
   "directory": "/home/sua/Documents/advent-code/2021/day-5/cmake-build-debug",
-  "command": "/usr/bin/x86_64-linux-gnu-g++-10   -g -o CMakeFiles/day-5.dir/Point.cpp.o -c /home/sua/Documents/advent-code/2021/day-5/Point.cpp",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-10   -O3 -DNDEBUG -o CMakeFiles/day-5.dir/Point.cpp.o -c /home/sua/Documents/advent-code/2021/day-5/Point.cpp",
   "file": "/home/sua/Documents/advent-code/2021/day-5/Point.cpp"
 }
 ]
