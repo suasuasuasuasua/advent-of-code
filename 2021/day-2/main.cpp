@@ -5,7 +5,8 @@ using namespace std;
 
 int main()
 {
-    ifstream fileIn("../sample.txt");
+    // ifstream fileIn("../sample.txt");
+    ifstream fileIn("../input.txt");
 
     if (!fileIn)
     {
