@@ -6,7 +6,9 @@ using namespace std;
 
 int main() {
     ifstream fileIn;
-    fileIn.open("../sample.txt");
+    // fileIn.open("../sample.txt");
+    fileIn.open("../input.txt");
+
     if (!fileIn) { return -1; }
 
     vector<int> depths;
@@ -28,7 +30,7 @@ int main() {
         }
     }
 
-    cout << "Count: " << count << endl;
+    cout << "Part 1: " << count << endl;
 
     /* part 2 */
     count = 0;
@@ -43,5 +45,5 @@ int main() {
     }
 
 
-    cout << "Count: " << count << endl;
+    cout << "Part 2: " << count << endl;
 }
