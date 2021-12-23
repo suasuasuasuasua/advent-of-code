@@ -12,7 +12,8 @@ int main()
 {
 
     // open file and read in data
-    ifstream fileIn("../sample.txt");
+    // ifstream fileIn("../sample.txt");
+    ifstream fileIn("../input.txt");
 
     if (!fileIn)
     {
