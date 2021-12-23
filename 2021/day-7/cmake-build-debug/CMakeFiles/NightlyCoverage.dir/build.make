@@ -44,19 +44,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /opt/homebrew/Cellar/cmake/3.22.1/bin/cmake
+CMAKE_COMMAND = /home/sua/.local/bin/cmake
 
 # The command to remove a file.
-RM = /opt/homebrew/Cellar/cmake/3.22.1/bin/cmake -E rm -f
+RM = /home/sua/.local/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/justinhoang/Documents/advent-code/2021/day-7
+CMAKE_SOURCE_DIR = /home/sua/Documents/advent-code/2021/day-7
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug
+CMAKE_BINARY_DIR = /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug
 
 # Utility rule file for NightlyCoverage.
 
@@ -67,7 +67,7 @@ include CMakeFiles/NightlyCoverage.dir/compiler_depend.make
 include CMakeFiles/NightlyCoverage.dir/progress.make
 
 CMakeFiles/NightlyCoverage:
-	/opt/homebrew/Cellar/cmake/3.22.1/bin/ctest -D NightlyCoverage
+	/home/sua/.local/bin/ctest -D NightlyCoverage
 
 NightlyCoverage: CMakeFiles/NightlyCoverage
 NightlyCoverage: CMakeFiles/NightlyCoverage.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/NightlyCoverage.dir/clean:
 .PHONY : CMakeFiles/NightlyCoverage.dir/clean
 
 CMakeFiles/NightlyCoverage.dir/depend:
-	cd /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/justinhoang/Documents/advent-code/2021/day-7 /Users/justinhoang/Documents/advent-code/2021/day-7 /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug /Users/justinhoang/Documents/advent-code/2021/day-7/cmake-build-debug/CMakeFiles/NightlyCoverage.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sua/Documents/advent-code/2021/day-7 /home/sua/Documents/advent-code/2021/day-7 /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug /home/sua/Documents/advent-code/2021/day-7/cmake-build-debug/CMakeFiles/NightlyCoverage.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/NightlyCoverage.dir/depend
 

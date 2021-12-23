@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/justinhoang/Documents/advent-code/2021/day-7/main.cpp" "CMakeFiles/day-7.dir/main.cpp.o" "gcc" "CMakeFiles/day-7.dir/main.cpp.o.d"
+  "/home/sua/Documents/advent-code/2021/day-7/main.cpp" "CMakeFiles/day-7.dir/main.cpp.o" "gcc" "CMakeFiles/day-7.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links.

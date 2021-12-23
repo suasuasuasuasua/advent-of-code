@@ -8,7 +8,7 @@ using namespace std;
 void solve();
 bool openFile(ifstream &fileIn, const string &fileName);
 vector<int> readFile(ifstream &fileIn);
-unsigned long long int leastDistance(const vector<int> crabPositions, const int &part);
+unsigned long long int leastDistance(const vector<int> &crabPositions, const int &part);
 unsigned long long int summation(const int &currPosition, const int &proposedPosition);
 
 int main()
@@ -67,9 +67,11 @@ vector<int> readFile(ifstream &fileIn)
     return fileData;
 }
 
-unsigned long long int leastDistance(const vector<int> crabPositions, const int &part)
+unsigned long long int leastDistance(const vector<int>& crabPositions, const int &part)
 {
-    int maxPosition = crabPositions.front(), minPosition = crabPositions.front();
+    int maxPosition, minPosition;
+    maxPosition = minPosition = crabPositions.front();
+
     for (const auto &position : crabPositions)
     {
         if (position > maxPosition)
@@ -86,7 +88,7 @@ unsigned long long int leastDistance(const vector<int> crabPositions, const int 
 
     for (int i = minPosition, n = maxPosition; i < n; i++)
     {
-        int tempMin = 0;
+        unsigned long long int tempMin = 0;
         for (const auto &position : crabPositions)
         {
             if (part == 1)

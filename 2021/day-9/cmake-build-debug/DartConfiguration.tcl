@@ -4,17 +4,17 @@
 
 
 # Configuration directories and files
-SourceDirectory: /Users/justinhoang/Documents/advent-code/2021/day-9
-BuildDirectory: /Users/justinhoang/Documents/advent-code/2021/day-9/cmake-build-debug
+SourceDirectory: /home/sua/Documents/advent-code/2021/day-9
+BuildDirectory: /home/sua/Documents/advent-code/2021/day-9/cmake-build-debug
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: Justins-MacBook-Air.local
+Site: JustinPC
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Darwin-clang++
+BuildName: Linux-x86_64-linux-gnu-g++-10
 
 # Subprojects
 LabelsForSubprojects: 
@@ -26,8 +26,8 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/opt/homebrew/Cellar/cmake/3.22.1/bin/cmake" "/Users/justinhoang/Documents/advent-code/2021/day-9"
-MakeCommand: /opt/homebrew/Cellar/cmake/3.22.1/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
+ConfigureCommand: "/home/sua/.local/bin/cmake" "/home/sua/Documents/advent-code/2021/day-9"
+MakeCommand: /home/sua/.local/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -62,8 +62,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: /usr/bin/clang++
-CompilerVersion: 13.0.0.13000029
+Compiler: /usr/bin/x86_64-linux-gnu-g++-10
+CompilerVersion: 10.2.1
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
