@@ -12,8 +12,9 @@ map<int, unsigned long long int> lanternFishAfterTime(const vector<int> &allLant
 int main()
 {
     ifstream fileIn;
-    string fileName = "../sample.txt";
-    // string fileName = "../input.txt";
+    // string fileName = "../sample.txt";
+    string fileName = "../input.txt";
+
     if (!openFile(fileIn, fileName))
     {
         cout << "File could not be read" << endl;

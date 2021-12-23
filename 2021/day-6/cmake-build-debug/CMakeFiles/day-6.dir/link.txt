@@ -1,1 +1,1 @@
-/usr/bin/x86_64-linux-gnu-g++-10 -g -rdynamic CMakeFiles/day-6.dir/main.cpp.o -o day-6 
+/usr/bin/x86_64-linux-gnu-g++-10 -O3 -DNDEBUG -rdynamic CMakeFiles/day-6.dir/main.cpp.o -o day-6 
