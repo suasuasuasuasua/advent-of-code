@@ -10,7 +10,7 @@ using namespace std;
 void solve();
 bool openFile(ifstream &fileIn, const string &fileName);
 vector<string> readFile(ifstream &fileIn);
-int checkChunk(const string &chunk);
+int checkChunk(const string &chunk, const int &part);
 void printStack(const stack<char> &stackSymbol, const char &curr);
 
 map<char, char> parens = {{')', '('}, {']', '['}, {'}', '{'}, {'>', '<'}};
@@ -25,8 +25,8 @@ int main()
 void solve()
 {
     ifstream fileIn;
-    // string fileName = "../sample.txt";
-    string fileName = "../input.txt";
+    string fileName = "../sample.txt";
+    // string fileName = "../input.txt";
 
     if (!openFile(fileIn, fileName))
     {
@@ -35,13 +35,23 @@ void solve()
     }
 
     vector<string> fileData = readFile(fileIn);
+
     // part 1
     int partOne = 0;
-    for (auto &line : fileData)
+    for (const auto &line : fileData)
     {
-        partOne += checkChunk(line);
+        partOne += checkChunk(line, 1);
     }
     cout << "Part 1: " << partOne << endl;
+
+    // part 2
+    int partTwo = 0;
+    for (const auto &line : fileData)
+    {
+        partTwo *= 5;
+        partTwo += checkChunk(line, 2);
+    }
+    cout << "Part 2: " << partTwo << endl;
 }
 
 bool openFile(ifstream &fileIn, const string &fileName)
@@ -66,11 +76,12 @@ vector<string> readFile(ifstream &fileIn)
     return fileData;
 }
 
-int checkChunk(const string &chunk)
+int checkChunk(const string &chunk, const int &part)
 {
     int score = 0;
     stack<char> symbolStack;
 
+    // TODO move part 1 and 2 to separate functions
     for (const auto &symbol : chunk)
     {
         // if the current symbol is closing
@@ -95,6 +106,7 @@ int checkChunk(const string &chunk)
         {
             symbolStack.push(symbol);
         }
+        printStack(symbolStack, ' ');
     }
 
     return score;
