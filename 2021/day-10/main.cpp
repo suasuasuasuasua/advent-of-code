@@ -4,17 +4,22 @@
 #include <vector>
 #include <stack>
 #include <map>
+#include <set>
 
 using namespace std;
 
 void solve();
 bool openFile(ifstream &fileIn, const string &fileName);
 vector<string> readFile(ifstream &fileIn);
-int checkChunk(const string &chunk, const int &part);
-void printStack(const stack<char> &stackSymbol, const char &curr);
+long long int checkChunk(const string &chunk, const int &part);
+void printStack(const stack<char> &missingStackSymbols, const char &curr);
+void copyOppositeStack(const stack<char> &originalStack, stack<char> &copyStack);
+long long int missingStackPoints(const stack<char> &missingStackSymbols);
 
 map<char, char> parens = {{')', '('}, {']', '['}, {'}', '{'}, {'>', '<'}};
-map<char, int> points = {{')', 3}, {']', 57}, {'}', 1197}, {'>', 25137}};
+map<char, char> oppositeParens = {{'(', ')'}, {'[', ']'}, {'{', '}'}, {'<', '>'}};
+map<char, int> partOnePoints = {{')', 3}, {']', 57}, {'}', 1197}, {'>', 25137}};
+map<char, int> partTwoPoints = {{')', 1}, {']', 2}, {'}', 3}, {'>', 4}};
 
 int main()
 {
@@ -25,8 +30,8 @@ int main()
 void solve()
 {
     ifstream fileIn;
-    string fileName = "../sample.txt";
-    // string fileName = "../input.txt";
+    // string fileName = "../sample.txt";
+    string fileName = "../input.txt";
 
     if (!openFile(fileIn, fileName))
     {
@@ -37,7 +42,7 @@ void solve()
     vector<string> fileData = readFile(fileIn);
 
     // part 1
-    int partOne = 0;
+    long long int partOne = 0;
     for (const auto &line : fileData)
     {
         partOne += checkChunk(line, 1);
@@ -45,12 +50,21 @@ void solve()
     cout << "Part 1: " << partOne << endl;
 
     // part 2
-    int partTwo = 0;
+    long long int partTwo = 0;
+    set<long long int> partTwoLines;
     for (const auto &line : fileData)
     {
-        partTwo *= 5;
-        partTwo += checkChunk(line, 2);
+        long long int sum = checkChunk(line, 2);
+        if (sum != 0)
+        {
+            partTwoLines.insert(sum);
+        }
     }
+    auto iter = partTwoLines.begin();
+    advance(iter, partTwoLines.size() / 2);
+
+    partTwo = *iter;
+
     cout << "Part 2: " << partTwo << endl;
 }
 
@@ -76,29 +90,35 @@ vector<string> readFile(ifstream &fileIn)
     return fileData;
 }
 
-int checkChunk(const string &chunk, const int &part)
+long long int checkChunk(const string &chunk, const int &part)
 {
-    int score = 0;
+    long long int score = 0;
     stack<char> symbolStack;
 
-    // TODO move part 1 and 2 to separate functions
     for (const auto &symbol : chunk)
     {
         // if the current symbol is closing
         if (parens.count(symbol))
         {
-            // if the previous symbol is equal to the closing symbol's corresponding opening
+            // stop at the first incorrect instance AND if we are solving the first part
+            if (symbolStack.top() != parens.at(symbol))
+            {
+                if (part == 1)
+                {
+                    score = partOnePoints.at(symbol);
+                    return score;
+                }
+                else
+                {
+                    return score;
+                }
+            }
+            // else if the previous symbol is equal to the closing symbol's corresponding opening
             // i.e. '}' to '{'
             // remove the previous symbol and don't add the current symbol because they matched
-            if (symbolStack.top() == parens.at(symbol))
-            {
-                symbolStack.pop();
-            }
-            // stops at the first incorrect instance
             else
             {
-                score = points.at(symbol);
-                break;
+                symbolStack.pop();
             }
         }
         // adds the symbol to the stack, otherwise
@@ -106,16 +126,24 @@ int checkChunk(const string &chunk, const int &part)
         {
             symbolStack.push(symbol);
         }
-        printStack(symbolStack, ' ');
+        // printStack(symbolStack, ' ');
     }
 
+    // for the second part, we'll operate on the remaining, incomplete stack
+    if (part == 2)
+    {
+        stack<char> missingSymbols;
+        copyOppositeStack(symbolStack, missingSymbols);
+
+        score = missingStackPoints(missingSymbols);
+    }
     return score;
 }
 
-void printStack(const stack<char> &stackSymbol, const char &curr)
+void printStack(const stack<char> &missingStackSymbols, const char &curr)
 {
     stack<char> tempStack;
-    stack<char> secondTempStack = stackSymbol;
+    stack<char> secondTempStack = missingStackSymbols;
 
     // reverse the stack for printing
     while (!secondTempStack.empty())
@@ -129,5 +157,42 @@ void printStack(const stack<char> &stackSymbol, const char &curr)
         cout << tempStack.top() << " ";
         tempStack.pop();
     }
-    cout << curr << endl;
+}
+
+void copyOppositeStack(const stack<char> &originalStack, stack<char> &copyStack)
+{
+    stack<char> tempStack;
+    stack<char> secondTempStack = originalStack;
+
+    while (!secondTempStack.empty())
+    {
+        auto current = secondTempStack.top();
+        auto oppositeCurrent = oppositeParens.at(current);
+
+        tempStack.push(oppositeCurrent);
+        secondTempStack.pop();
+    }
+    while (!tempStack.empty())
+    {
+        auto current = tempStack.top();
+        copyStack.push(current);
+        tempStack.pop();
+    }
+}
+
+long long int missingStackPoints(const stack<char> &missingStackSymbols)
+{
+    long long int sum = 0;
+    auto tempStack = missingStackSymbols;
+    while (!tempStack.empty())
+    {
+        auto currentSymbol = tempStack.top();
+        int pointValue = partTwoPoints.at(currentSymbol);
+
+        sum *= 5;
+        sum += pointValue;
+
+        tempStack.pop();
+    }
+    return sum;
 }
