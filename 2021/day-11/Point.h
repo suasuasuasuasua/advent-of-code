@@ -20,4 +20,4 @@ public:
 };
 
 // TODO isAdjacent function to continue checking and repeating
-bool isAdjacent
+bool isAdjacent();
