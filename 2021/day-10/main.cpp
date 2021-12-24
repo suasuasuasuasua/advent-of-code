@@ -3,12 +3,17 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <map>
 
 using namespace std;
 
 void solve();
 bool openFile(ifstream &fileIn, const string &fileName);
 vector<string> readFile(ifstream &fileIn);
+int checkChunk(const string &chunk);
+bool checkStack(const stack<char> &stackSymbol, const char &symbol);
+
+map<char, char> parens = {{'}', '{'}, {')', '('}, {']', '['}, {'>', '<'}};
 
 int main()
 {
@@ -28,6 +33,12 @@ void solve()
     }
 
     vector<string> fileData = readFile(fileIn);
+    // part 1
+    int partOne = 0;
+    for (auto &line : fileData)
+    {
+        partOne += checkChunk(line);
+    }
 }
 
 bool openFile(ifstream &fileIn, const string &fileName)
@@ -50,4 +61,25 @@ vector<string> readFile(ifstream &fileIn)
         fileData.push_back(line);
     }
     return fileData;
+}
+
+int checkChunk(const string &chunk)
+{
+    int score;
+    stack<char> symbolStack;
+
+    for (const auto &symbol : chunk)
+    {
+        symbolStack.push(symbol);
+        // cout << symbol << endl;
+    }
+
+    return score;
+}
+
+bool checkStack(const stack<char> &stackSymbol, const char &symbol)
+{
+    auto tempStack = stackSymbol;
+    // iterate through stack
+    return false;
 }
