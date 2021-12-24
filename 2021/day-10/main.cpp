@@ -12,12 +12,13 @@ void solve();
 bool openFile(ifstream &fileIn, const string &fileName);
 vector<string> readFile(ifstream &fileIn);
 long long int checkChunk(const string &chunk, const int &part);
-void printStack(const stack<char> &missingStackSymbols, const char &curr);
+void printStack(const stack<char> &missingStackSymbols);
 void copyOppositeStack(const stack<char> &originalStack, stack<char> &copyStack);
 long long int missingStackPoints(const stack<char> &missingStackSymbols);
+long long int getMiddleOfSet(const set<long long int> &s);
 
-map<char, char> parens = {{')', '('}, {']', '['}, {'}', '{'}, {'>', '<'}};
-map<char, char> oppositeParens = {{'(', ')'}, {'[', ']'}, {'{', '}'}, {'<', '>'}};
+map<char, char> closingToOpeningParens = {{')', '('}, {']', '['}, {'}', '{'}, {'>', '<'}};
+map<char, char> openingToClosingParens = {{'(', ')'}, {'[', ']'}, {'{', '}'}, {'<', '>'}};
 map<char, int> partOnePoints = {{')', 3}, {']', 57}, {'}', 1197}, {'>', 25137}};
 map<char, int> partTwoPoints = {{')', 1}, {']', 2}, {'}', 3}, {'>', 4}};
 
@@ -43,6 +44,7 @@ void solve()
 
     // part 1
     long long int partOne = 0;
+    // sum each line for the point value
     for (const auto &line : fileData)
     {
         partOne += checkChunk(line, 1);
@@ -52,18 +54,20 @@ void solve()
     // part 2
     long long int partTwo = 0;
     set<long long int> partTwoLines;
+
     for (const auto &line : fileData)
     {
         long long int sum = checkChunk(line, 2);
-        if (sum != 0)
+        // if the sum is non-zero, i.e. the line was incomplete, then insert it into the set
+        if (sum)
         {
             partTwoLines.insert(sum);
         }
+        // else if the line was corrupted, i.e. incorrect, then don't consider it
     }
-    auto iter = partTwoLines.begin();
-    advance(iter, partTwoLines.size() / 2);
 
-    partTwo = *iter;
+    // get the median value of the set
+    partTwo = getMiddleOfSet(partTwoLines);
 
     cout << "Part 2: " << partTwo << endl;
 }
@@ -98,30 +102,28 @@ long long int checkChunk(const string &chunk, const int &part)
     for (const auto &symbol : chunk)
     {
         // if the current symbol is closing
-        if (parens.count(symbol))
+        if (closingToOpeningParens.count(symbol))
         {
             // stop at the first incorrect instance AND if we are solving the first part
-            if (symbolStack.top() != parens.at(symbol))
+            if (symbolStack.top() != closingToOpeningParens.at(symbol))
             {
                 if (part == 1)
                 {
+                    // use the current symbol (the one that was incorrect) as a key to get the point value
                     score = partOnePoints.at(symbol);
-                    return score;
                 }
-                else
-                {
-                    return score;
-                }
+                return score;
             }
             // else if the previous symbol is equal to the closing symbol's corresponding opening
             // i.e. '}' to '{'
             // remove the previous symbol and don't add the current symbol because they matched
+            // this begins to clear the stack
             else
             {
                 symbolStack.pop();
             }
         }
-        // adds the symbol to the stack, otherwise
+        // adds the symbol to the stack if it is not closing
         else
         {
             symbolStack.push(symbol);
@@ -140,7 +142,7 @@ long long int checkChunk(const string &chunk, const int &part)
     return score;
 }
 
-void printStack(const stack<char> &missingStackSymbols, const char &curr)
+void printStack(const stack<char> &missingStackSymbols)
 {
     stack<char> tempStack;
     stack<char> secondTempStack = missingStackSymbols;
@@ -164,14 +166,18 @@ void copyOppositeStack(const stack<char> &originalStack, stack<char> &copyStack)
     stack<char> tempStack;
     stack<char> secondTempStack = originalStack;
 
+    // change all opening symbols to the corresponding closing symbol
     while (!secondTempStack.empty())
     {
+        // here the current are all going to be opening parens
         auto current = secondTempStack.top();
-        auto oppositeCurrent = oppositeParens.at(current);
+        // use the current as the key for the map to get the opposite
+        auto oppositeOfCurrent = openingToClosingParens.at(current);
 
-        tempStack.push(oppositeCurrent);
+        tempStack.push(oppositeOfCurrent);
         secondTempStack.pop();
     }
+    // unreverse the stack
     while (!tempStack.empty())
     {
         auto current = tempStack.top();
@@ -186,8 +192,9 @@ long long int missingStackPoints(const stack<char> &missingStackSymbols)
     auto tempStack = missingStackSymbols;
     while (!tempStack.empty())
     {
-        auto currentSymbol = tempStack.top();
-        int pointValue = partTwoPoints.at(currentSymbol);
+        auto current = tempStack.top();
+        // use the current symbol as a key for the map to get the point value
+        int pointValue = partTwoPoints.at(current);
 
         sum *= 5;
         sum += pointValue;
@@ -195,4 +202,11 @@ long long int missingStackPoints(const stack<char> &missingStackSymbols)
         tempStack.pop();
     }
     return sum;
+}
+
+long long int getMiddleOfSet(const set<long long int> &s)
+{
+    auto iter = s.begin();
+    advance(iter, s.size() / 2);
+    return *iter;
 }
