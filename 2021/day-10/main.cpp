@@ -11,9 +11,10 @@ void solve();
 bool openFile(ifstream &fileIn, const string &fileName);
 vector<string> readFile(ifstream &fileIn);
 int checkChunk(const string &chunk);
-bool checkStack(const stack<char> &stackSymbol, const char &symbol);
+void printStack(const stack<char> &stackSymbol, const char &curr);
 
-map<char, char> parens = {{'}', '{'}, {')', '('}, {']', '['}, {'>', '<'}};
+map<char, char> parens = {{')', '('}, {']', '['}, {'}', '{'}, {'>', '<'}};
+map<char, int> points = {{')', 3}, {']', 57}, {'}', 1197}, {'>', 25137}};
 
 int main()
 {
@@ -24,7 +25,8 @@ int main()
 void solve()
 {
     ifstream fileIn;
-    string fileName = "../sample.txt";
+    // string fileName = "../sample.txt";
+    string fileName = "../input.txt";
 
     if (!openFile(fileIn, fileName))
     {
@@ -39,6 +41,7 @@ void solve()
     {
         partOne += checkChunk(line);
     }
+    cout << "Part 1: " << partOne << endl;
 }
 
 bool openFile(ifstream &fileIn, const string &fileName)
@@ -65,21 +68,54 @@ vector<string> readFile(ifstream &fileIn)
 
 int checkChunk(const string &chunk)
 {
-    int score;
+    int score = 0;
     stack<char> symbolStack;
 
     for (const auto &symbol : chunk)
     {
-        symbolStack.push(symbol);
-        // cout << symbol << endl;
+        // if the current symbol is closing
+        if (parens.count(symbol))
+        {
+            // if the previous symbol is equal to the closing symbol's corresponding opening
+            // i.e. '}' to '{'
+            // remove the previous symbol and don't add the current symbol because they matched
+            if (symbolStack.top() == parens.at(symbol))
+            {
+                symbolStack.pop();
+            }
+            // stops at the first incorrect instance
+            else
+            {
+                score = points.at(symbol);
+                break;
+            }
+        }
+        // adds the symbol to the stack, otherwise
+        else
+        {
+            symbolStack.push(symbol);
+        }
     }
 
     return score;
 }
 
-bool checkStack(const stack<char> &stackSymbol, const char &symbol)
+void printStack(const stack<char> &stackSymbol, const char &curr)
 {
-    auto tempStack = stackSymbol;
-    // iterate through stack
-    return false;
+    stack<char> tempStack;
+    stack<char> secondTempStack = stackSymbol;
+
+    // reverse the stack for printing
+    while (!secondTempStack.empty())
+    {
+        tempStack.push(secondTempStack.top());
+        secondTempStack.pop();
+    }
+
+    while (!tempStack.empty())
+    {
+        cout << tempStack.top() << " ";
+        tempStack.pop();
+    }
+    cout << curr << endl;
 }
