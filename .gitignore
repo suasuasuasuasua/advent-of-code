@@ -35,6 +35,7 @@
 # CMake
 **/CMakeLists.txt.user
 **/CMakeCache.txt
+**/cmake-build-*
 **/CMakeFiles
 **/CMakeScripts
 **/Testing
