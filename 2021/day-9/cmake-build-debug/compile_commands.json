@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/sua/Documents/advent-code/2021/day-9/cmake-build-debug",
-  "command": "/usr/bin/x86_64-linux-gnu-g++-10   -g -std=gnu++11 -o CMakeFiles/day-9.dir/main.cpp.o -c /home/sua/Documents/advent-code/2021/day-9/main.cpp",
-  "file": "/home/sua/Documents/advent-code/2021/day-9/main.cpp"
-}
-]

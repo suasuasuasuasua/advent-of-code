@@ -1,1 +1,0 @@
-/usr/bin/x86_64-linux-gnu-g++-10 -O3 -DNDEBUG -rdynamic CMakeFiles/day-5.dir/main.cpp.o CMakeFiles/day-5.dir/Point.cpp.o -o day-5 
