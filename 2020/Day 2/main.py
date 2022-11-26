@@ -18,7 +18,8 @@ def main():
         (min, max), target, str = password
         p1_count += 1 if str.count(
             target) >= min and str.count(target) <= max else 0
-        p2_count += 1 if ((str[min-1] == target) ^ (str[max-1] == target)) else 0
+        p2_count += 1 if ((str[min-1] == target) ^
+                          (str[max-1] == target)) else 0
 
     print(f"Part 1: {p1_count}")
     print(f"Part 2: {p2_count}")
