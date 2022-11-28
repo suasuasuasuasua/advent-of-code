@@ -1,4 +1,3 @@
-import numpy as np
 input: str = """af AND ah -> ai
 NOT lk -> ll
 hz RSHIFT 1 -> is
@@ -348,34 +347,37 @@ as RSHIFT 2 -> at"""
 # NOT x -> h
 # NOT y -> i"""
 
-instructions = [(ins.split()[1], (ins.split()[0], ins.split()[2], ins.split()[4]), ) if len(ins.split()) == 5 else (ins.split()[0], (ins.split()[
-    1], ins.split()[3]), ) if len(ins.split()) == 4 else (ins.split()[0], tuple(ins.split()[2])) for ins in input.split('\n')]
+wires = {ins.split('->')[-1].strip() : ins.split('->')[0].strip().split() for ins in input.split('\n')}
 
+solved = dict()
 
-gate_dict = dict()
-for op, operands in instructions:
-    destination = operands[-1]
-    print(op, operands)
-    if op in gate_dict:
-        gate_dict[destination] = np.uint16(op)
-    else:
-        gate_dict[destination] = 0
-    match len(operands):
-        case 2:
-            gate_dict[destination] = np.uint16(
-                (gate_dict[operands[0]]) + 2**16 ^ 1)
-        case 3:
-            if op == "AND":
-                gate_dict[destination] = np.uint16(gate_dict[operands[0]
-                                                             ] & gate_dict[operands[1]])
-            elif op == "OR":
-                gate_dict[destination] = np.uint16(gate_dict[operands[0]
-                                                             ] | gate_dict[operands[1]])
-            elif op == "LSHIFT":
-                gate_dict[destination] = np.uint16(gate_dict[operands[0]] << int(
-                    operands[1]))
-            elif op == "RSHIFT":
-                gate_dict[destination] = np.uint16(gate_dict[operands[0]] >> int(
-                    operands[1]))
+# https://dev.to/jules_lewis/advent-of-code-2015-day-7-35mp
+# Got help on the recursive solution
+def solve(node):
+    if node.isnumeric():
+        return int(node)
+    if node not in solved:
+        operands = wires[node]
+        if len(operands) == 1:
+            n = solve(operands[0])
+        else:
+            operation = operands[-2]
+            if (operation == 'AND'):
+                n = solve(operands[0]) & solve(operands[-1])
+            elif (operation == 'OR'):
+                n = solve(operands[0]) | solve(operands[-1])
+            elif (operation == 'NOT'):
+                n = ~solve(operands[1])
+            elif (operation == 'RSHIFT'):
+                n = solve(operands[0]) >> solve(operands[-1])
+            elif (operation == 'LSHIFT'):
+                n = solve(operands[0]) << solve(operands[-1])
+        solved[node] = n
 
-print(gate_dict)
+    return solved[node]
+
+p1_solution = solve('a')
+print(f"Part 1: {p1_solution}")
+wires['b'] = [str(p1_solution)]
+solved = {}
+print(f"Part 2: {solve('a')}")
