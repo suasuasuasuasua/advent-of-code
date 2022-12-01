@@ -2240,5 +2240,5 @@ input: str = '''3120
 lines = [list(map(int,l.split())) for l in input.split('\n\n')]
 print(f"Part 1: {max([sum(l) for l in lines])}")
 
-part_2 = sum(sorted([sum(l) for l in lines])[-3:])
-print(f"Part 2: {part_2}")
+part_2 = sorted([sum(l) for l in lines])
+print(f"Part 2: {part_2[-1] + part_2[-2] + part_2[-3]}")
