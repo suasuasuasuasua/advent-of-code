@@ -2499,36 +2499,38 @@ A Z
 A X
 C Y'''
 
-lines = input.split('\n')
-moves = [m.split() for m in lines]
+instructions = [m.split() for m in input.split('\n')]
 
 scores = {
-    ('X'): 1,
-    ('Y'): 2,
-    ('Z'): 3,
+    'X': 1,
+    'Y': 2,
+    'Z': 3,
+}
+
+moves = {
+    'A': 'X',
+    'B': 'Y',
+    'C': 'Z',
+}
+
+compliments = {
+    ('A', 'Y'): 6,
+    ('A', 'Z'): 0,
+    ('B', 'X'): 0,
+    ('B', 'Z'): 6,
+    ('C', 'X'): 6,
+    ('C', 'Y'): 0,
 }
 
 part_1 = 0
-for a, b in moves:
-    if (a == 'A' and b == 'X' or a == 'B' and b == 'Y' or a == 'C' and b == 'Z'):
+for a, b in instructions:
+    if (moves[a] == b):
         part_1 += 3
-    elif (a == 'A' and b == 'Y'):
-        part_1 += 6
-    elif (a == 'A' and b == 'Z'):
-        part_1 += 0
-    elif (a == 'B' and b == 'Z'):
-        part_1 += 6
-    elif (a == 'B' and b == 'X'):
-        part_1 += 0
-    elif (a == 'C' and b == 'X'):
-        part_1 += 6
-    elif (a == 'C' and b == 'Y'):
-        part_1 += 0
+    else:
+        part_1 += compliments[a, b]  # type: ignore
     part_1 += scores[b]
 
 print(f"Part 1: {part_1}")
-
-part_2 = 0
 
 outcomes = {
     'X': 0,
@@ -2536,25 +2538,20 @@ outcomes = {
     'Z': 6,
 }
 
-for a, b in moves:
-    if a == 'A' and b == 'X':
-        part_2 += 3
-    elif a == 'A' and b == 'Y':
-        part_2 += 1
-    elif a == 'A' and b == 'Z':
-        part_2 += 2
-    if a == 'B' and b == 'X':
-        part_2 += 1
-    elif a == 'B' and b == 'Y':
-        part_2 += 2
-    elif a == 'B' and b == 'Z':
-        part_2 += 3
-    if a == 'C' and b == 'X':
-        part_2 += 2
-    elif a == 'C' and b == 'Y':
-        part_2 += 3
-    elif a == 'C' and b == 'Z':
-        part_2 += 1
-    part_2 += outcomes[b]
+compliments = {
+    ('A', 'X'): 3,
+    ('A', 'Y'): 1,
+    ('A', 'Z'): 2,
+    ('B', 'X'): 1,
+    ('B', 'Y'): 2,
+    ('B', 'Z'): 3,
+    ('C', 'X'): 2,
+    ('C', 'Y'): 3,
+    ('C', 'Z'): 1,
+}
+
+part_2 = 0
+for a, b in instructions:
+    part_2 += outcomes[b] + compliments[a, b]  # type: ignore
 
 print(f"Part 2: {part_2}")
