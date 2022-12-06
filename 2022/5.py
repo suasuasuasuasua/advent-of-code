@@ -517,6 +517,9 @@ move 5 from 3 to 9'''
 crates, moves = input.split('\n\n')
 crates = crates.split('\n')
 
+moves = [(int(move.split()[1]) - 1, int(move.split()[3]) - 1,
+          int(move.split()[5]) - 1) for move in moves.split('\n')]
+
 L = len(crates)
 W = int(crates[-1][-2])
 
@@ -528,14 +531,10 @@ for i in range(L-1):
             all_crates[count].append(crates[i][j])
         count += 1
 
-moves = [(int(move.split()[1]) - 1, int(move.split()[3]) - 1,
-          int(move.split()[5]) - 1) for move in moves.split('\n')]
-
 for a, b, c in moves:
     for i in range(a+1):
         x = all_crates[b].popleft()
         all_crates[c].appendleft(x)
-
 
 part_1 = ""
 for c in all_crates:
