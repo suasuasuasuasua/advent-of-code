@@ -1,5 +1,4 @@
 from collections import deque
-
 input = '''$ cd /
 $ ls
 dir csjncqmr
@@ -981,30 +980,6 @@ $ ls
 287427 csjncqmr.tfj
 297578 hhhp.jvt'''
 
-# input = '''$ cd /
-# $ ls
-# dir a
-# 14848514 b.txt
-# 8504156 c.dat
-# dir d
-# $ cd a
-# $ ls
-# dir e
-# 29116 f
-# 2557 g
-# 62596 h.lst
-# $ cd e
-# $ ls
-# 584 i
-# $ cd ..
-# $ cd ..
-# $ cd d
-# $ ls
-# 4060174 j
-# 8033020 d.log
-# 5626152 d.ext
-# 7214296 k'''
-
 lines = input
 
 lines = lines.split('$ ')[1:]
@@ -1015,36 +990,30 @@ for l in lines:
 
 cleaned_lines = [l.split() for l in cleaned_lines]
 
-current_dir = deque()
-
+current_dir = []
 directories = {}
-parents = {}
 
 for l in cleaned_lines:
     instruction = l[0]
     if instruction == 'cd':
         if l[1] == '..':
             x = current_dir.pop()
-            directories[current_dir[-1]] += directories[x]
         elif [1] == '/':
             current_dir.clear()
         else:
             current_dir.append(l[1])
-            directories[l[1]] = 0
-    if instruction == 'ls':
+    elif instruction == 'ls':
         files = l[1:]
         for i in range(0, len(files), 2):
             filesize = files[i]
             filename = files[i+1]
             if filesize.isnumeric():
-                directories[current_dir[-1]] += int(filesize)
-
-while len(current_dir) != 1:
-    x = current_dir.pop()
-    directories[current_dir[-1]] += directories[x]
-
-print(directories)
-print(current_dir)
+                for i in range(1, len(current_dir)+1):
+                    pathname = '/'.join(current_dir[:i])
+                    if pathname not in directories.keys():
+                        directories[pathname] = int(filesize)
+                    else:
+                        directories[pathname] += int(filesize)
 
 part_1 = 0
 for d in directories:
@@ -1053,5 +1022,15 @@ for d in directories:
 
 print(f"Part 1: {part_1}")
 
-part_2 = 0
+MAX_SPACE = 70000000
+LIM_UNUSED = 30000000
+USED = directories['/']
+CURRENT_UNUSED = MAX_SPACE - USED
+
+candidates = []
+for d in directories:
+    if CURRENT_UNUSED + directories[d] >= LIM_UNUSED:
+        candidates.append(directories[d])
+
+part_2 = min(candidates)
 print(f"Part 2: {part_2}")
