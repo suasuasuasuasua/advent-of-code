@@ -98,37 +98,48 @@ input = '''020110220332333020110144320304042020444223003535441353331002333431100
 122110132221332212341431023220242412121544355542132225542445544553234342030402442141111321103231211
 122021200131211021314010312001241211235253115315252213451111223452204220130001212341202130012001221'''
 
-input = '''30373
-25512
-65332
-33549
-35390'''
-
 lines = input.split('\n')
 
 trees = [[int(lines[i][j]) for j in range(len(lines[i]))]
          for i in range(len(lines))]
 
-# for t in trees:
-#     print(t)
-
 part_1 = 0
+part_2 = []
 for i in range(1, len(trees) - 1, 1):
-    # for j in range(1, len(trees) - 1, 1):
-    #     # Max in row
+    tree_scores = []
     for j in range(1, len(trees[i]) - 1, 1):
         current = trees[i][j]
 
         if current > max(trees[i][:j]) or \
                 current > max(trees[i][j+1:]) or \
-                current > max([trees[k][i] for k in range(0, j)]) or \
-                current > max([trees[k][i] for k in range(j+1, len(trees))]):
+                current > max([trees[k][j] for k in range(0, i)]) or \
+                current > max([trees[k][j] for k in range(i+1, len(trees))]):
             part_1 += 1
 
-part_1 += len(trees) * 2 + (len(trees[0]) - 2) * 2
+        left_score = 0
+        right_score = 0
+        up_score = 0
+        down_score = 0
+        for t in reversed(trees[i][:j]):
+            left_score += 1
+            if t >= current:
+                break
+        for t in trees[i][j+1:]:
+            right_score += 1
+            if t >= current:
+                break
+        for t in reversed([trees[k][j] for k in range(0, i)]):
+            up_score += 1
+            if t >= current:
+                break
+        for t in [trees[k][j] for k in range(i+1, len(trees))]:
+            down_score += 1
+            if t >= current:
+                break
+        part_2.append(left_score * right_score * up_score * down_score)
 
-# 1704 wrong
+part_1 += len(trees) * 2 + (len(trees[0]) - 2) * 2
 print(f"Part 1: {part_1}")
 
-part_2 = 0
+part_2 = max(part_2)
 print(f"Part 2: {part_2}")
