@@ -2077,16 +2077,16 @@ print(f"Part 1: {part_1}")
 
 #### Part 2 ####
 
-visited_part_2 = []
-visited_part_2.append((0, 0))
-Hx = Hy = Tx = Ty = 0
-# Create an array for each knot on the rope
 rope = [(0, 0) for _ in range(10)]
+Hx = Hy = Tx = Ty = 0
+visited_part_2 = {}
+visited_part_2[rope[-1]] = 1
+# Create an array for each knot on the rope
 for direction, count in instructions:
     count = int(count)
     # Move the head one by one depending on the direction
     for i in range(count):
-        # Reset the "Head" to the front of the rope
+        # At the start of each instruction, reset the "Head" to the front of the rope
         Hx = rope[0][0]
         Hy = rope[0][1]
         if direction in ['R', 'L']:
@@ -2094,8 +2094,9 @@ for direction, count in instructions:
         else:
             Hy += dirs[direction]
 
-        # Iterate through 1, 2, ... , 9
+        # Update the location of the rope for each increment
         rope[0] = (Hx, Hy)
+        # Iterate through 1, 2, ... , 9
         for knot in range(1, len(rope)):
             # Set the tail to the "current" knot location
             Tx = rope[knot][0]
@@ -2105,12 +2106,11 @@ for direction, count in instructions:
             Tx, Ty = move_tail(Hx, Hy, Tx, Ty)
             # Set the current knot location depending on how the tail moved
             rope[knot] = Tx, Ty
-            # Set the head to the currentn tail, so that the next tail evaluates relative to the knot before it
+            # Set the head to the current tail, so that the next tail evaluates relative to the knot before it
             Hx, Hy = Tx, Ty
 
         # Make sure to add the last location of the rope
-        visited_part_2.append(rope[-1])
+        visited_part_2[rope[-1]] = 1
 
-visited_part_2 = set(visited_part_2)
 part_2 = len(visited_part_2)
 print(f"Part 2: {part_2}")
