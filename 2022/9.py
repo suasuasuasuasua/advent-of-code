@@ -1999,14 +1999,14 @@ D 6
 R 19
 U 16'''
 
-# input = '''R 4
-# U 4
-# L 3
-# D 1
-# R 4
-# D 1
-# L 5
-# R 2'''
+input = '''R 4
+U 4
+L 3
+D 1
+R 4
+D 1
+L 5
+R 2'''
 
 # input = '''R 5
 # U 8
@@ -2020,6 +2020,47 @@ U 16'''
 lines = input.split('\n')
 
 instructions = [l.split() for l in lines]
+
+def move_tail(Hx, Hy, Tx, Ty):
+    
+    # If Head is within one unit, then don't move
+    if abs(Hx - Tx) <= 1 and abs(Hy - Ty) <= 1:
+        return (Tx, Ty)
+
+    # Check if Tail in same row
+    if (Hy == Ty):
+        # Move from the left
+        if Hx > Tx:
+            Tx = Hx - 1
+        # Move from the right
+        elif Hx < Tx:
+            Tx = Hx + 1
+    # In same col
+    elif (Hx == Tx):
+        # Move from the top
+        if Hy > Ty:
+            Ty = Hy - 1
+        # Move from the bottom
+        elif Hy < Ty:
+            Ty = Hy + 1
+    # In the diagonals
+    else:
+        # Top left
+        if (Hx < Tx and Hy > Ty):
+            Tx -= 1
+            Ty += 1
+        # Top right
+        elif (Hx > Tx and Hy > Ty):
+            Tx += 1
+            Ty += 1
+        elif (Hx < Tx and Hy < Ty):
+            Tx -= 1
+            Ty -= 1
+        elif (Hx > Tx and Hy < Ty):
+            Tx += 1
+            Ty -= 1
+
+    return (Tx, Ty)
 
 Hx = Hy = Tx = Ty = 0
 
@@ -2041,54 +2082,8 @@ for direction, count in instructions:
         else:
             Hy += dirs[direction]
 
-        # If Head is within one unit, then don't move
-        # Check if Tail in same row
-        if (Hy == Ty):
-            if Hx == Tx + 1 or Hx == Tx - 1:
-                continue
-            # Move from the left
-            if Hx > Tx:
-                Tx = Hx - 1
-            # Move from the right
-            elif Hx < Tx:
-                Tx = Hx + 1
-        # In same col
-        elif (Hx == Tx):
-            if Hy == Ty + 1 or Hy == Ty - 1:
-                continue
-            # Move from the top
-            if Hy > Ty:
-                Ty = Hy - 1
-            # Move from the bottom
-            elif Hy < Ty:
-                Ty = Hy + 1
-        # In the diagonals
-        else:
-            # Within one unit
-            # Top left
-            if (Hx == Tx - 1 and Hy == Ty + 1) or \
-               (Hx == Tx + 1 and Hy == Ty + 1) or \
-                    (Hx == Tx - 1 and Hy == Ty - 1) or \
-                    (Hx == Tx + 1 and Hy == Ty - 1):
-                continue
-
-            # More than unit
-            # Top left
-            if (Hx < Tx and Hy > Ty):
-                Tx -= 1
-                Ty += 1
-            # Top right
-            elif (Hx > Tx and Hy > Ty):
-                Tx += 1
-                Ty += 1
-            elif (Hx < Tx and Hy < Ty):
-                Tx -= 1
-                Ty -= 1
-            elif (Hx > Tx and Hy < Ty):
-                Tx += 1
-                Ty -= 1
-
         # Save location to dict
+        Tx, Ty = move_tail(Hx, Hy, Tx, Ty)
         visited_part_1[(Tx, Ty)] = 1
 
 part_1 = len(visited_part_1)
@@ -2120,12 +2115,14 @@ for direction, count in instructions:
             Ty = rope[knot][1]
 
             # If Head is within one unit, then don't move
+            # If Head is within one unit, then don't move
+            if abs(Hx - Tx) <= 1 and abs(Hy - Ty) <= 1:
+                Hx = rope[knot][0]
+                Hy = rope[knot][1]
+                continue
+
             # Check if Tail in same row
             if (Hy == Ty):
-                if Hx == Tx + 1 or Hx == Tx - 1:
-                    Hx = rope[knot][0]
-                    Hy = rope[knot][1]
-                    continue
                 # Move from the left
                 if Hx > Tx:
                     Tx = Hx - 1
@@ -2134,10 +2131,6 @@ for direction, count in instructions:
                     Tx = Hx + 1
             # In same col
             elif (Hx == Tx):
-                if Hy == Ty + 1 or Hy == Ty - 1:
-                    Hx = rope[knot][0]
-                    Hy = rope[knot][1]
-                    continue
                 # Move from the top
                 if Hy > Ty:
                     Ty = Hy - 1
@@ -2146,16 +2139,6 @@ for direction, count in instructions:
                     Ty = Hy + 1
             # In the diagonals
             else:
-                # Within one unit
-                # Top left
-                if (Hx == Tx - 1 and Hy == Ty + 1) or \
-                    (Hx == Tx + 1 and Hy == Ty + 1) or \
-                        (Hx == Tx - 1 and Hy == Ty - 1) or \
-                        (Hx == Tx + 1 and Hy == Ty - 1):
-                    Hx = rope[knot][0]
-                    Hy = rope[knot][1]
-                    continue
-
                 # More than unit
                 # Top left
                 if (Hx < Tx and Hy > Ty):
@@ -2179,7 +2162,7 @@ for direction, count in instructions:
             Hx = Tx
             Hy = Ty
 
-        # Make sure to add the last location of the rope at the end of the loop
+        # Make sure to add the last location of the rope
         visited_part_2.append(rope[-1])
 
 visited_part_2 = set(visited_part_2)
