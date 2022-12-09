@@ -1999,14 +1999,14 @@ D 6
 R 19
 U 16'''
 
-input = '''R 4
-U 4
-L 3
-D 1
-R 4
-D 1
-L 5
-R 2'''
+# input = '''R 4
+# U 4
+# L 3
+# D 1
+# R 4
+# D 1
+# L 5
+# R 2'''
 
 # input = '''R 5
 # U 8
@@ -2094,5 +2094,94 @@ for direction, count in instructions:
 part_1 = len(visited_part_1)
 print(f"Part 1: {part_1}")
 
-part_2 = 0
+visited_part_2 = []
+visited_part_2.append((0, 0))
+
+Hx = Hy = Tx = Ty = 0
+# Create an array for each knot on the rope
+rope = [(0, 0) for _ in range(10)]
+for direction, count in instructions:
+    count = int(count)
+    # Move the head one by one depending on the direction
+    for i in range(count):
+        # Reset the "Head" to the front of the rope
+        Hx = rope[0][0]
+        Hy = rope[0][1]
+        if direction in ['R', 'L']:
+            Hx += dirs[direction]
+        else:
+            Hy += dirs[direction]
+
+        # Iterate through 1, 2, ... , 9
+        rope[0] = (Hx, Hy)
+        for knot in range(1, len(rope)):
+            # Set the tail to the "current" knot location
+            Tx = rope[knot][0]
+            Ty = rope[knot][1]
+
+            # If Head is within one unit, then don't move
+            # Check if Tail in same row
+            if (Hy == Ty):
+                if Hx == Tx + 1 or Hx == Tx - 1:
+                    Hx = rope[knot][0]
+                    Hy = rope[knot][1]
+                    continue
+                # Move from the left
+                if Hx > Tx:
+                    Tx = Hx - 1
+                # Move from the right
+                elif Hx < Tx:
+                    Tx = Hx + 1
+            # In same col
+            elif (Hx == Tx):
+                if Hy == Ty + 1 or Hy == Ty - 1:
+                    Hx = rope[knot][0]
+                    Hy = rope[knot][1]
+                    continue
+                # Move from the top
+                if Hy > Ty:
+                    Ty = Hy - 1
+                # Move from the bottom
+                elif Hy < Ty:
+                    Ty = Hy + 1
+            # In the diagonals
+            else:
+                # Within one unit
+                # Top left
+                if (Hx == Tx - 1 and Hy == Ty + 1) or \
+                    (Hx == Tx + 1 and Hy == Ty + 1) or \
+                        (Hx == Tx - 1 and Hy == Ty - 1) or \
+                        (Hx == Tx + 1 and Hy == Ty - 1):
+                    Hx = rope[knot][0]
+                    Hy = rope[knot][1]
+                    continue
+
+                # More than unit
+                # Top left
+                if (Hx < Tx and Hy > Ty):
+                    Tx -= 1
+                    Ty += 1
+                # Top right
+                elif (Hx > Tx and Hy > Ty):
+                    Tx += 1
+                    Ty += 1
+                elif (Hx < Tx and Hy < Ty):
+                    Tx -= 1
+                    Ty -= 1
+                elif (Hx > Tx and Hy < Ty):
+                    Tx += 1
+                    Ty -= 1
+
+            # If the current knot location moves because of the head, update it
+            rope[knot] = (Tx, Ty)
+
+            # Set the current tail as the new head
+            Hx = Tx
+            Hy = Ty
+
+        # Make sure to add the last location of the rope at the end of the loop
+        visited_part_2.append(rope[-1])
+
+visited_part_2 = set(visited_part_2)
+part_2 = len(visited_part_2)
 print(f"Part 2: {part_2}")
