@@ -1,6 +1,6 @@
 # Advent of code 2022
 
-Leave me alone. I don't wanna read from a file so I'll just copy the whole input as a file.
+Leave me alone. I don't wanna read from a file so I'll just copy the whole input as a string.
 
 ```text
       --------Part 1--------   --------Part 2--------
