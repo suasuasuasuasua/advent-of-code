@@ -145,18 +145,12 @@ noop'''
 
 lines = [i.split() for i in input.split('\n')]
 
-instructions = {
-    'addx': 2,
-    'noop': 1
-}
-
 queued_adds = []
 
 for l in lines:
     queued_adds.append(0)
     if len(l) == 2:
         queued_adds.append(int(l[1]))
-
 
 cycles_of_interest = list(range(20, 220 + 40, 40))
 part_1 = 0
