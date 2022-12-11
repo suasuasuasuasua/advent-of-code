@@ -102,7 +102,8 @@ def run_rounds(n, p1):
     return monkey_inspections
 
 
-part_1 = sorted(run_rounds(20, True).values(), reverse=True)
+part_1 = run_rounds(20, True)
+part_1 = sorted(part_1.values(), reverse=True)
 part_1 = part_1[0] * part_1[1]
 print(f"Part 1 {part_1}")
 
