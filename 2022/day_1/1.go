@@ -15,51 +15,54 @@ func check(e error) {
 	}
 }
 
-// Create each Elf's backpack
-type elf struct {
-	item int
+func ToInt64(lines []string) []int64 {
+	nums := make([]int64, len(lines))
+	for i, line := range lines {
+		nums[i], _ = strconv.ParseInt(line, 10, 64)
+	}
+	return nums
 }
 
-// Sum the given elves
-func sum(items []elf) int {
-	total := 0
-	for _, item := range items {
-		total += item.item
+func Sum(lines []int64) int64 {
+	final_sum := int64(0)
+	for _, line := range lines {
+		final_sum += line
 	}
-	return total
+	return final_sum
 }
 
 func main() {
+	// Open the file for input
 	f, err := os.Open("input.txt")
-	check(err) // Open the file and check for an error
+	check(err)
 	defer f.Close()
 
-	scanner := bufio.NewScanner(f) // Create a scanner object from the file object
-
-	all_elves := []elf{}
-	current_elf := 0
-	// Scan the file line by line, stopping at each newline
+	// Read the file line by line
+	scanner := bufio.NewScanner(f)
+	all_lines := []string{}
 	for scanner.Scan() {
-		line := scanner.Text()
-		if line == "" {
-			all_elves = append(all_elves, elf{current_elf})
-			current_elf = 0
-			continue
-		} else {
-			item, err := strconv.Atoi(line)
-			check(err)
-			current_elf += item
-		}
+		all_lines = append(all_lines, scanner.Text())
 	}
 
-	// Reverse sort the elves by item
-	sort.Slice(all_elves, func(l, r int) bool {
-		return all_elves[l].item > all_elves[r].item
+	// Group the lines based on newline
+	groups := []int64{}
+	start := 0
+	for i, line := range all_lines {
+		if line == "" {
+			groups = append(groups, Sum(ToInt64(all_lines[start:i])))
+			start = i + 1
+		}
+	}
+	groups = append(groups, Sum(ToInt64(all_lines[start:])))
+
+	// Sort the groups in descending order
+	sort.Slice(groups, func(i, j int) bool {
+		return groups[i] > groups[j]
 	})
 
-	part_1 := sum(all_elves[:1])
-	fmt.Println("Part 1:", part_1)
+	part_1 := Sum(groups[:1])
+	fmt.Println("Part 1: ", part_1)
 
-	part_2 := sum(all_elves[:3])
-	fmt.Println("Part 2:", part_2)
+	part_2 := Sum(groups[:3])
+	fmt.Println("Part 2: ", part_2)
 }
