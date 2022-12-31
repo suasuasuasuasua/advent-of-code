@@ -1,6 +1,5 @@
 import operator
 import math
-import functools
 
 input = '''Monkey 0:
   Starting items: 98, 70, 75, 80, 84, 89, 55, 98

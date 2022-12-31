@@ -48,3 +48,6 @@
 
 **/.vscode
 **/.idea
+
+# Input files
+**/input.txt

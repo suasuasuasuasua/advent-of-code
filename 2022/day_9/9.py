@@ -2095,7 +2095,7 @@ for direction, count in instructions:
             Hy += dirs[direction]
 
         # Update the location of the rope for each increment
-        rope[0] = (Hx, Hy)
+        rope[0] = (Hx, Hy)  # type: ignore
         # Iterate through 1, 2, ... , 9
         for knot in range(1, len(rope)):
             # Set the tail to the "current" knot location
