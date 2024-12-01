@@ -1,0 +1,15 @@
+input.txt
+sample.txt
+
+# python venv
+.venv
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

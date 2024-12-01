@@ -31,8 +31,7 @@ determine which locations to search?
 
 Throughout the Chief's office, the historically significant locations are listed
 not by name but by a unique number called the location ID. To make sure they
-don't miss anything, The Historians split into two groups, each searching the
-office and trying to create their own complete list of location IDs.
+don't miss anything, The Historians split into two groups, each searching the office and trying to create their own complete list of location IDs.
 
 There's just one problem: by holding the two lists up side by side (your puzzle
 input), it quickly becomes clear that the lists aren't very similar. Maybe you
@@ -160,6 +159,7 @@ Once again consider your left and right lists. What is their similarity score?
 
 def similarity(acc: int, cur: int) -> int:
     return acc + (cur * second_nums.count(cur))
+
 
 part_2 = functools.reduce(similarity, first_nums, 0)
 
