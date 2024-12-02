@@ -1,9 +1,7 @@
-{ pkgs, lib, config, inputs, ... }:
-
-{
+{pkgs, ...}: {
   # https://devenv.sh/packages/
-  packages = with pkgs; [ 
-    git 
+  packages = with pkgs; [
+    git
     fastfetch
     btop
     bat
@@ -19,8 +17,8 @@
       activate.enable = true;
       install = {
         enable = true;
-        extras = [ ];
-        groups = [ "dev" ];
+        extras = [];
+        groups = ["dev"];
       };
     };
   };
