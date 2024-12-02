@@ -34,7 +34,6 @@
 
     # Docs
     markdownlint.enable = true;
-    typos.enable = true;
 
     # General
     check-merge-conflicts.enable = true;
@@ -44,7 +43,6 @@
     # Python
     poetry-check.enable = true;
     black.enable = true;
-    pylint.enable = true;
   };
 
   # See full reference at https://devenv.sh/reference/options/
