@@ -11,7 +11,7 @@
   # https://devenv.sh/languages/
   languages.python = {
     enable = true;
-    version = "3.12";
+    version = "3.11";
     poetry = {
       enable = true;
       activate.enable = true;
@@ -20,6 +20,17 @@
         extras = [];
         groups = ["dev"];
       };
+    };
+  };
+
+  devcontainer = {
+    enable = true;
+    settings = {
+      image = "ghcr.io/cachix/devenv:latest";
+      customizations.vscode.extensions = [
+        "mkhl.direnv"
+        "ms-python.python"
+      ];
     };
   };
 
